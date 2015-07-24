@@ -353,8 +353,9 @@ module.exports = function (grunt) {
     ['clean',
       'test',
       'concat',
+      'closure',
       'uglify',
-      'closure']);
+    ]);
 
   // The test task will run `karma:saucelabs` when running in travis,
   // otherwise, it'll default to running karma in chrome.
