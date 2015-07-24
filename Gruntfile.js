@@ -26,6 +26,7 @@ module.exports = function (grunt) {
         nonull: true,
         src: [
           'node_modules/video.js/dist/video-js/video.js',
+          'node_modules/videojs-contrib-media-sources/src/videojs-media-sources.js',
           'src/videojs-hls.js',
           'src/stream.js',
           'src/flv-tag.js',
@@ -40,7 +41,8 @@ module.exports = function (grunt) {
           'src/playlist.js',
           'src/playlist-loader.js',
           'node_modules/pkcs7/dist/pkcs7.unpad.js',
-          'src/decrypter.js'
+          'src/decrypter.js',
+          'src/bin-utils.js'
         ],
         dest: 'dist/videojs.hls.js'
       }
@@ -352,9 +354,15 @@ module.exports = function (grunt) {
   grunt.registerTask('default',
     ['clean',
       'test',
+      'build'
+    ]);
+
+  // Default task.
+  grunt.registerTask('build',
+    ['clean',
       'concat',
       'closure',
-      'uglify',
+      'uglify'
     ]);
 
   // The test task will run `karma:saucelabs` when running in travis,
