@@ -2,7 +2,7 @@
 
 var basename = require('path').basename;
 
-module.exports = function(grunt) {
+module.exports = function (grunt) {
   var pkg = grunt.file.readJSON('package.json');
 
   // Project configuration.
@@ -10,9 +10,9 @@ module.exports = function(grunt) {
     // Metadata.
     pkg: pkg,
     banner: '/*! <%= pkg.name %> - v<%= pkg.version %> - ' +
-      '<%= grunt.template.today("yyyy-mm-dd") %>\n' +
-      '* Copyright (c) <%= grunt.template.today("yyyy") %> Brightcove;' +
-      ' Licensed <%= _.pluck(pkg.licenses, "type").join(", ") %> */\n',
+    '<%= grunt.template.today("yyyy-mm-dd") %>\n' +
+    '* Copyright (c) <%= grunt.template.today("yyyy") %> Brightcove;' +
+    ' Licensed <%= _.pluck(pkg.licenses, "type").join(", ") %> */\n',
     // Task configuration.
     clean: {
       files: ['build', 'dist', 'tmp']
@@ -24,22 +24,24 @@ module.exports = function(grunt) {
       },
       dist: {
         nonull: true,
-        src: ['src/videojs-hls.js',
-              'src/stream.js',
-              'src/flv-tag.js',
-              'src/exp-golomb.js',
-              'src/h264-extradata.js',
-              'src/h264-stream.js',
-              'src/aac-stream.js',
-              'src/metadata-stream.js',
-              'src/segment-parser.js',
-              'src/m3u8/m3u8-parser.js',
-              'src/xhr.js',
-              'src/playlist.js',
-              'src/playlist-loader.js',
-              'node_modules/pkcs7/dist/pkcs7.unpad.js',
-              'src/decrypter.js'
-            ],
+        src: [
+          'node_modules/video.js/dist/video-js/video.js',
+          'src/videojs-hls.js',
+          'src/stream.js',
+          'src/flv-tag.js',
+          'src/exp-golomb.js',
+          'src/h264-extradata.js',
+          'src/h264-stream.js',
+          'src/aac-stream.js',
+          'src/metadata-stream.js',
+          'src/segment-parser.js',
+          'src/m3u8/m3u8-parser.js',
+          'src/xhr.js',
+          'src/playlist.js',
+          'src/playlist-loader.js',
+          'node_modules/pkcs7/dist/pkcs7.unpad.js',
+          'src/decrypter.js'
+        ],
         dest: 'dist/videojs.hls.js'
       }
     },
@@ -70,11 +72,11 @@ module.exports = function(grunt) {
           jshintrc: 'test/.jshintrc'
         },
         src: ['test/**/*.js',
-              '!test/tsSegment.js',
-              '!test/fixtures/*.js',
-              '!test/manifest/**',
-              '!test/muxer/**',
-               '!test/switcher/**']
+          '!test/tsSegment.js',
+          '!test/fixtures/*.js',
+          '!test/manifest/**',
+          '!test/muxer/**',
+          '!test/switcher/**']
       }
     },
     connect: {
@@ -92,8 +94,8 @@ module.exports = function(grunt) {
         }
       }
     },
-    open : {
-      dev : {
+    open: {
+      dev: {
         path: 'http://127.0.0.1:<%= connect.dev.options.port %>/example.html',
         app: 'Google Chrome'
       }
@@ -142,6 +144,18 @@ module.exports = function(grunt) {
         'dist': ['videojs.hls.min.js']
       }
     },
+    closure: {
+      options: {
+        closure: 'src/closure.js'
+      },
+      wrap: {
+        files: [
+          {
+            src: ['dist/videojs.hls.js']
+          }
+        ]
+      }
+    },
     karma: {
       options: {
         frameworks: ['qunit']
@@ -154,7 +168,7 @@ module.exports = function(grunt) {
 
       dev: {
         browsers: ['Chrome', 'Safari', 'Firefox',
-        'Opera', 'IE', 'PhantomJS', 'ChromeCanary'],
+          'Opera', 'IE', 'PhantomJS', 'ChromeCanary'],
         configFile: 'test/localkarma.conf.js',
         autoWatch: true
       },
@@ -266,7 +280,7 @@ module.exports = function(grunt) {
         }
       },
 
-      saucelabs:{}
+      saucelabs: {}
     }
   });
 
@@ -288,58 +302,59 @@ module.exports = function(grunt) {
 
 
   grunt.registerTask('manifests-to-js', 'Wrap the test fixtures and output' +
-                     ' so they can be loaded in a browser',
-                     function() {
-    var
-      jsManifests = 'window.manifests = {\n',
-      jsExpected = 'window.expected = {\n';
-    grunt.file.recurse('test/manifest/',
-                       function(abspath, root, sub, filename) {
-      if ((/\.m3u8$/).test(abspath)) {
+    ' so they can be loaded in a browser',
+    function () {
+      var
+        jsManifests = 'window.manifests = {\n',
+        jsExpected = 'window.expected = {\n';
+      grunt.file.recurse('test/manifest/',
+        function (abspath, root, sub, filename) {
+          if ((/\.m3u8$/).test(abspath)) {
 
-        // translate this manifest
-        jsManifests += '  \'' + basename(filename, '.m3u8') + '\': ' +
-          grunt.file.read(abspath)
-            .split(/\r\n|\n/)
+            // translate this manifest
+            jsManifests += '  \'' + basename(filename, '.m3u8') + '\': ' +
+              grunt.file.read(abspath)
+                .split(/\r\n|\n/)
 
-            // quote and concatenate
-            .map(function(line) {
-              return '    \'' + line + '\\n\' +\n';
-            }).join('')
+                // quote and concatenate
+                .map(function (line) {
+                  return '    \'' + line + '\\n\' +\n';
+                }).join('')
 
-            // strip leading spaces and the trailing '+'
-            .slice(4, -3);
-        jsManifests += ',\n';
-      }
+                // strip leading spaces and the trailing '+'
+                .slice(4, -3);
+            jsManifests += ',\n';
+          }
 
-      if ((/\.js$/).test(abspath)) {
+          if ((/\.js$/).test(abspath)) {
 
-        // append the expected parse
-        jsExpected += '  "' + basename(filename, '.js') + '": ' +
-          grunt.file.read(abspath) + ',\n';
-      }
+            // append the expected parse
+            jsExpected += '  "' + basename(filename, '.js') + '": ' +
+              grunt.file.read(abspath) + ',\n';
+          }
+        });
+
+      // clean up and close the objects
+      jsManifests = jsManifests.slice(0, -2);
+      jsManifests += '\n};\n';
+      jsExpected = jsExpected.slice(0, -2);
+      jsExpected += '\n};\n';
+
+      // write out the manifests
+      grunt.file.write('tmp/manifests.js', jsManifests);
+      grunt.file.write('tmp/expected.js', jsExpected);
     });
-
-    // clean up and close the objects
-    jsManifests = jsManifests.slice(0, -2);
-    jsManifests += '\n};\n';
-    jsExpected = jsExpected.slice(0, -2);
-    jsExpected += '\n};\n';
-
-    // write out the manifests
-    grunt.file.write('tmp/manifests.js', jsManifests);
-    grunt.file.write('tmp/expected.js', jsExpected);
-  });
 
   // Launch a Development Environment
   grunt.registerTask('dev', 'Launching Dev Environment', 'concurrent:dev');
 
   // Default task.
   grunt.registerTask('default',
-                     ['clean',
-                      'test',
-                      'concat',
-                      'uglify']);
+    ['clean',
+      'test',
+      'concat',
+      'uglify',
+      'closure']);
 
   // The test task will run `karma:saucelabs` when running in travis,
   // otherwise, it'll default to running karma in chrome.
@@ -347,7 +362,7 @@ module.exports = function(grunt) {
   // or separating them with a comma:
   //   grunt test:chrome:firefox  # grunt-style
   //   grunt test:chrome,firefox  # comma-separated
-  grunt.registerTask('test', function() {
+  grunt.registerTask('test', function () {
     var tasks = this.args;
 
     grunt.task.run(['jshint', 'manifests-to-js']);
@@ -366,7 +381,7 @@ module.exports = function(grunt) {
       if (tasks.length === 1) {
         tasks = tasks[0].split(',');
       }
-      tasks = tasks.reduce(function(acc, el) {
+      tasks = tasks.reduce(function (acc, el) {
         acc.push('karma:' + el);
         if (/chrome|firefox|safari|ie/.test(el)) {
           acc.push('protractor:' + el);
@@ -377,4 +392,30 @@ module.exports = function(grunt) {
       grunt.task.run(tasks);
     }
   });
+
+  grunt.registerMultiTask('closure', 'Add closure around the app', function () {
+
+
+// Set up defaults for the options hash
+    var options = this.options({
+      closure: ''
+    });
+
+    // Iterate over the list of files and add the banner or footer
+    this.files.forEach(function (file) {
+      file.src.forEach(function (src) {
+        if (grunt.file.isFile(src)) {
+          // wrap the original app source with the closure
+          grunt.file.write(src,
+            grunt.file.read(options.closure)
+              .replace(/\/\*#replaceCode#\*\//, grunt.file.read(src))
+          );
+          grunt.verbose.writeln('Closure added to file ' + src.cyan);
+        }
+
+      });
+    });
+
+  });
+
 };
