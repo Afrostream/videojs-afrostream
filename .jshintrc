@@ -15,5 +15,5 @@
   "nonew": true,
   "quotmark": "single",
   "trailing": true,
-  "maxlen": 80
+  "maxlen": 100
 }

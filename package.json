@@ -47,7 +47,7 @@
     "sinon": "1.10.2"
   },
   "dependencies": {
-    "video.js": "^4.12.0",
+    "video.js": "^4.6.0",
     "pkcs7": "^0.2.2",
     "videojs-contrib-media-sources": "^1.0.0",
     "videojs-swf": "^4.7.0"
