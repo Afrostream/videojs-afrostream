@@ -42,7 +42,10 @@ module.exports = function (grunt) {
           'src/playlist-loader.js',
           'node_modules/pkcs7/dist/pkcs7.unpad.js',
           'src/decrypter.js',
-          'src/bin-utils.js'
+          'src/bin-utils.js',
+          //STREAMROOT
+          'libs/streamroot/1.1/streamroot.wrapper.js',
+          'libs/streamroot/1.1/srflash.wrapper.420.js'
         ],
         dest: 'dist/videojs.hls.js'
       }
