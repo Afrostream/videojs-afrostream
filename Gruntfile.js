@@ -44,6 +44,7 @@ module.exports = function (grunt) {
           'src/decrypter.js',
           'src/bin-utils.js',
           //STREAMROOT
+          'libs/streamroot/1.1/api_demo.js',
           'libs/streamroot/1.1/streamroot.wrapper.js',
           'libs/streamroot/1.1/srflash.wrapper.420.js'
         ],
@@ -52,7 +53,10 @@ module.exports = function (grunt) {
     },
     uglify: {
       options: {
-        banner: '<%= banner %>'
+        banner: '<%= banner %>',
+        mangle: {
+          except: ['jQuery']
+        }
       },
       dist: {
         src: '<%= concat.dist.dest %>',
@@ -357,15 +361,15 @@ module.exports = function (grunt) {
   grunt.registerTask('default',
     ['clean',
       'test',
-      'build'
+      'build',
+      'uglify'
     ]);
 
   // Default task.
   grunt.registerTask('build',
     ['clean',
       'concat',
-      'closure',
-      'uglify'
+      'closure'
     ]);
 
   // The test task will run `karma:saucelabs` when running in travis,
