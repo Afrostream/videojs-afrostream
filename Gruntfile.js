@@ -45,8 +45,8 @@ module.exports = function (grunt) {
           'src/bin-utils.js',
           //STREAMROOT
           //'libs/streamroot/1.3/api.js',
-          'libs/streamroot/1.3/streamroot.wrapper.js',
-          'libs/streamroot/1.3/srflash.wrapper.420.js'
+          //'libs/streamroot/1.3/streamroot.wrapper.js',
+          //'libs/streamroot/1.3/srflash.wrapper.420.js'
         ],
         dest: 'dist/videojs.hls.js'
       }
