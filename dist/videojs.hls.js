@@ -15,7 +15,7 @@
 
   // Pass this if window is not defined yet
 }(typeof window !== 'undefined' ? window : this, function (window, noGlobal) { /*jshint unused:false*/
-  /*! videojs-contrib-hls - v0.17.5 - 2015-07-30
+  /*! videojs-contrib-hls - v0.17.5 - 2015-08-24
 * Copyright (c) 2015 Brightcove; Licensed  */
 // HTML5 Shiv. Must be in <head> to support older browsers.
 document.createElement('video');
@@ -13825,7 +13825,7 @@ videojs.Hls.AsyncStream = AsyncStream;
           this.parentMenu.items[i].selected(false);
         }
       }
-      this.player_.tech.aDash.switchRepresentation(this.track.type, this.track.id_aset, this.track.id_rep);
+      this.player_.tech.aDash.switchRepresentation(this.track.type, this.track.asetId, this.track.repId);
     }
 
   });
@@ -13861,15 +13861,15 @@ videojs.Hls.AsyncStream = AsyncStream;
           var m = new videojs.AlternativeTrackMenuItem(this.player_, {
             type: this.options[i].type,
             lang: this.options[i].lang,
-            id_rep: this.options[i].id_rep,
+            repId: this.options[i].repId,
             auto: true,
             selected: this.options[i].selected
           }, this);
         } else {
-          var id_aset = this.options[i].id_aset;
+          var asetId = this.options[i].asetId;
           //var bw = this.options[i].bandwidth;
           var bitrate = this.options[i].bitrate;
-          var id_rep = this.options[i].id_rep;
+          var repId = this.options[i].repId;
           var selected = this.options[i].selected | false;
           var height = this.options[i].height;
           var width = this.options[i].width;
@@ -13880,8 +13880,8 @@ videojs.Hls.AsyncStream = AsyncStream;
           var buttonOptions = {
             type: this.options[i].type,
             lang: tracklang,
-            id_aset: id_aset,
-            id_rep: id_rep,
+            asetId: asetId,
+            repId: repId,
             bitrate: bitrate,
             width : width,
             height : height,

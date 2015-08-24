@@ -44,9 +44,9 @@ module.exports = function (grunt) {
           'src/decrypter.js',
           'src/bin-utils.js',
           //STREAMROOT
-          //'libs/streamroot/1.1/api_demo.js',
-          'libs/streamroot/1.1/streamroot.wrapper.js',
-          'libs/streamroot/1.1/srflash.wrapper.420.js'
+          //'libs/streamroot/1.3/api.js',
+          'libs/streamroot/1.3/streamroot.wrapper.js',
+          'libs/streamroot/1.3/srflash.wrapper.420.js'
         ],
         dest: 'dist/videojs.hls.js'
       }
