@@ -49,9 +49,9 @@
   "dependencies": {
     "dashjs": "^1.1.1",
     "pkcs7": "^0.2.2",
-    "video.js": "~4.6.0",
+    "video.js": "^4.12.14",
     "videojs-contrib-dash": "^1.1.1",
     "videojs-contrib-media-sources": "^1.0.0",
-    "videojs-swf": "^4.7.0"
+    "videojs-swf": "^4.7.4"
   }
 }
