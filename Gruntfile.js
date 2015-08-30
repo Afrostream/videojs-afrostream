@@ -25,6 +25,7 @@ module.exports = function (grunt) {
       dist: {
         nonull: true,
         src: [
+          //HLS
           'node_modules/video.js/dist/video-js/video.dev.js',
           'node_modules/videojs-contrib-media-sources/src/videojs-media-sources.js',
           'src/videojs-hls.js',
@@ -43,12 +44,15 @@ module.exports = function (grunt) {
           'node_modules/pkcs7/dist/pkcs7.unpad.js',
           'src/decrypter.js',
           'src/bin-utils.js',
+          //DASH
+          'node_modules/dashjs/node_modules/dashjs/dist/dash.all.js',
+          'node_modules/videojs-contrib-dash/dist/videojs-dash.js'
           //STREAMROOT
           //'libs/streamroot/1.3/api.js',
           //'libs/streamroot/1.3/streamroot.wrapper.js',
           //'libs/streamroot/1.3/srflash.wrapper.420.js'
         ],
-        dest: 'dist/videojs.hls.js'
+        dest: 'dist/afrostream.player.js'
       }
     },
     uglify: {
@@ -60,7 +64,7 @@ module.exports = function (grunt) {
       },
       dist: {
         src: '<%= concat.dist.dest %>',
-        dest: 'dist/videojs.hls.min.js'
+        dest: 'dist/afrostream.player.min.js'
       }
     },
     jshint: {
@@ -160,7 +164,7 @@ module.exports = function (grunt) {
       wrap: {
         files: [
           {
-            src: ['dist/videojs.hls.js']
+            src: ['dist/afrostream.player.js']
           }
         ]
       }

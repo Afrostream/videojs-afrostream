@@ -4,7 +4,7 @@
   "engines": {
     "node": ">= 0.10.12"
   },
-  "main": "./dist/videojs.hls.js",
+  "main": "./dist/afrostream.player.js",
   "repository": {
     "type": "git",
     "url": "git@github.com:Afrostream/videojs-contrib-hls.git"
@@ -47,8 +47,10 @@
     "sinon": "1.10.2"
   },
   "dependencies": {
-    "video.js": "~4.6.0",
+    "dashjs": "^1.1.1",
     "pkcs7": "^0.2.2",
+    "video.js": "~4.6.0",
+    "videojs-contrib-dash": "^1.1.1",
     "videojs-contrib-media-sources": "^1.0.0",
     "videojs-swf": "^4.7.0"
   }
