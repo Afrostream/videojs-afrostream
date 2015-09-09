@@ -52,6 +52,7 @@
     "video.js": "^4.12.14",
     "videojs-contrib-dash": "^1.1.1",
     "videojs-contrib-media-sources": "^1.0.0",
-    "videojs-swf": "^4.7.4"
+    "videojs-swf": "^4.7.4",
+    "videojs-chromecast": "https://github.com/kim-company/videojs-chromecast.git#master"
   }
 }

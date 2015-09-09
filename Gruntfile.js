@@ -46,11 +46,15 @@ module.exports = function (grunt) {
           'src/bin-utils.js',
           //DASH
           'node_modules/dashjs/node_modules/dashjs/dist/dash.all.js',
-          'node_modules/videojs-contrib-dash/dist/videojs-dash.js'
+          'node_modules/videojs-contrib-dash/dist/videojs-dash.js',
           //STREAMROOT
           //'libs/streamroot/1.3/api.js',
           //'libs/streamroot/1.3/streamroot.wrapper.js',
           //'libs/streamroot/1.3/srflash.wrapper.420.js'
+          //CHROMECAST
+          'node_modules/videojs-chromecast/dist/videojs.chromecast.js',
+          //GoogleAnaltics
+          'bower_components/videojs-ga/dist/videojs.ga.js'
         ],
         dest: 'dist/afrostream.player.js'
       }
