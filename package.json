@@ -53,6 +53,6 @@
     "videojs-contrib-dash": "^1.1.1",
     "videojs-contrib-media-sources": "^1.0.0",
     "videojs-swf": "^4.7.4",
-    "videojs-chromecast": "https://github.com/kim-company/videojs-chromecast.git#master"
+    "videojs-chromecast": "https://github.com/Afrostream/videojs-chromecast.git#master"
   }
 }

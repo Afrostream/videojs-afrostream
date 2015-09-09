@@ -17426,7 +17426,7 @@ var j,k=this.metricsModel.getReadOnlyMetricsFor(i),l=this.metricsExt.getCurrentB
   videojs.Html5DashJS = Html5DashJS;
 })(window, window.videojs);
 
-/*! videojs-chromecast - v1.1.1 - 2015-04-15
+/*! videojs-chromecast - v1.1.1 - 2015-09-09
 * https://github.com/kim-company/videojs-chromecast
 * Copyright (c) 2015 KIM Keep In Mind GmbH, srl; Licensed MIT */
 
@@ -17529,7 +17529,7 @@ var j,k=this.metricsModel.getReadOnlyMetricsFor(i),l=this.metricsExt.getCurrentB
     };
 
     ChromecastComponent.prototype.onSessionSuccess = function(session) {
-      var image, key, loadRequest, mediaInfo, ref, value;
+      var image, key, loadRequest, mediaInfo, ref, ref1, value;
       vjs.log("Session initialized: " + session.sessionId);
       this.apiSession = session;
       this.addClass("connected");
@@ -17545,6 +17545,23 @@ var j,k=this.metricsModel.getReadOnlyMetricsFor(i),l=this.metricsExt.getCurrentB
           image = new chrome.cast.Image(this.player_.options_.poster);
           mediaInfo.metadata.images = [image];
         }
+      }
+      if (this.settings.tracks) {
+        this.tracks = [];
+        ref1 = this.settings.tracks;
+        for (key in ref1) {
+          value = ref1[key];
+          this.track = new chrome.cast.media.Track(1, chrome.cast.media.TrackType.TEXT);
+          this.track.trackContentId = value.src;
+          this.track.trackContentType = 'text/vtt';
+          this.track.subtype = chrome.cast.media.TextTrackType.SUBTITLES;
+          this.track.name = value.label;
+          this.track.language = value.srclang;
+          this.track.customData = null;
+          this.tracks.push(this.track);
+        }
+        mediaInfo.textTrackStyle = new chrome.cast.media.TextTrackStyle;
+        mediaInfo.tracks = this.tracks;
       }
       loadRequest = new chrome.cast.media.LoadRequest(mediaInfo);
       loadRequest.autoplay = true;
