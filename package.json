@@ -11,8 +11,7 @@
   },
   "license": "Apache-2.0",
   "scripts": {
-    "test": "grunt test",
-    "prepublish": "if [ -z \"$TRAVIS\" ]; then grunt; fi"
+    "test": "grunt test"
   },
   "keywords": [
     "videojs",
