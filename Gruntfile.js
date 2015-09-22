@@ -45,7 +45,7 @@ module.exports = function (grunt) {
           'src/decrypter.js',
           'src/bin-utils.js',
           //DASH
-          'node_modules/dashjs/node_modules/dashjs/dist/dash.all.js',
+          'node_modules/dashjs/dist/dash.all.js',
           'node_modules/videojs-contrib-dash/dist/videojs-dash.js',
           //STREAMROOT
           //'libs/streamroot/1.3/api.js',

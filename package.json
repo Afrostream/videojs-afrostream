@@ -47,7 +47,7 @@
   },
   "dependencies": {
     "dashjs": "https://github.com/Dash-Industry-Forum/dash.js.git#v1.5.0",
-    "pkcs7": "^0.2.2",
+    "pkcs7": "^0.2.3",
     "video.js": "^4.12.15",
     "videojs-chromecast": "https://github.com/Afrostream/videojs-chromecast.git#master",
     "videojs-contrib-dash": "^1.1.1",
