@@ -15,7 +15,7 @@
 
   // Pass this if window is not defined yet
 }(typeof window !== 'undefined' ? window : this, function (window, noGlobal) { /*jshint unused:false*/
-  /*! videojs-afrostream - v0.17.5 - 2015-09-23
+  /*! videojs-afrostream - v0.17.5 - 2015-09-24
 * Copyright (c) 2015 Brightcove; Licensed  */
 // HTML5 Shiv. Must be in <head> to support older browsers.
 document.createElement('video');

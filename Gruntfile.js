@@ -298,11 +298,28 @@ module.exports = function (grunt) {
       },
 
       saucelabs: {}
+    },
+    copy: {
+      swf: {
+        expand: true,
+        flatten: true,
+        cwd: './node_modules/videojs-swf/',
+        src: '**/*.swf',
+        dest: 'dist/'
+      },
+      videojs: {
+        expand: true,
+        flatten: false,
+        cwd: './node_modules/video.js/dist/video-js/',
+        src: '**/*.{less,eot,svg,ttf,woff}',
+        dest: 'dist/'
+      }
     }
   });
 
   // These plugins provide necessary tasks.
   grunt.loadNpmTasks('grunt-karma');
+  grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-uglify');
@@ -378,7 +395,8 @@ module.exports = function (grunt) {
     ['clean',
       'concat',
       'closure',
-      'uglify'
+      'uglify',
+      'copy'
     ]);
 
   // The test task will run `karma:saucelabs` when running in travis,
