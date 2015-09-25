@@ -25,25 +25,27 @@ module.exports = function (grunt) {
       dist: {
         nonull: true,
         src: [
+          //HLSJS
+          'node_modules/videojs-hlsjs/dist/videojs-hlsjs.js',
           //HLS
-          'node_modules/video.js/dist/video-js/video.dev.js',
-          'node_modules/videojs-contrib-media-sources/src/videojs-media-sources.js',
-          'src/videojs-hls.js',
-          'src/stream.js',
-          'src/flv-tag.js',
-          'src/exp-golomb.js',
-          'src/h264-extradata.js',
-          'src/h264-stream.js',
-          'src/aac-stream.js',
-          'src/metadata-stream.js',
-          'src/segment-parser.js',
-          'src/m3u8/m3u8-parser.js',
-          'src/xhr.js',
-          'src/playlist.js',
-          'src/playlist-loader.js',
-          'node_modules/pkcs7/dist/pkcs7.unpad.js',
-          'src/decrypter.js',
-          'src/bin-utils.js',
+          //'node_modules/video.js/dist/video-js/video.dev.js',
+          //'node_modules/videojs-contrib-media-sources/src/videojs-media-sources.js',
+          //'src/videojs-hls.js',
+          //'src/stream.js',
+          //'src/flv-tag.js',
+          //'src/exp-golomb.js',
+          //'src/h264-extradata.js',
+          //'src/h264-stream.js',
+          //'src/aac-stream.js',
+          //'src/metadata-stream.js',
+          //'src/segment-parser.js',
+          //'src/m3u8/m3u8-parser.js',
+          //'src/xhr.js',
+          //'src/playlist.js',
+          //'src/playlist-loader.js',
+          //'node_modules/pkcs7/dist/pkcs7.unpad.js',
+          //'src/decrypter.js',
+          //'src/bin-utils.js',
           //DASH
           'node_modules/dashjs/dist/dash.all.js',
           'node_modules/videojs-contrib-dash/dist/videojs-dash.js',
@@ -54,9 +56,7 @@ module.exports = function (grunt) {
           //CHROMECAST
           'node_modules/videojs-chromecast/dist/videojs.chromecast.js',
           //GoogleAnaltics
-          'bower_components/videojs-ga/dist/videojs.ga.js',
-          //HLSJS
-          'node_modules/videojs-hlsjs/dist/videojs-hlsjs.js'
+          'bower_components/videojs-ga/dist/videojs.ga.js'
         ],
         dest: 'dist/afrostream.player.js'
       }
