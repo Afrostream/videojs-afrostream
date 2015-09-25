@@ -52,6 +52,7 @@
     "videojs-chromecast": "https://github.com/Afrostream/videojs-chromecast.git#master",
     "videojs-contrib-dash": "^1.1.1",
     "videojs-contrib-media-sources": "^1.0.0",
+    "hls.js": "git+https://github.com/Afrostream/hls.js.git#master",
     "videojs-hlsjs": "git+https://github.com/benjipott/videojs-hlsjs#master",
     "videojs-swf": "git+https://github.com/Afrostream/video-js-swf.git#feature/stage-video-hardware-accelerated"
   }
