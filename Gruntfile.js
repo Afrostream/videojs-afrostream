@@ -25,10 +25,11 @@ module.exports = function (grunt) {
       dist: {
         nonull: true,
         src: [
+          //VIDEOJS
+          'node_modules/video.js/dist/video-js/video.dev.js',
           //HLSJS
           'node_modules/videojs-hlsjs/dist/videojs-hlsjs.js',
           //HLS
-          //'node_modules/video.js/dist/video-js/video.dev.js',
           //'node_modules/videojs-contrib-media-sources/src/videojs-media-sources.js',
           //'src/videojs-hls.js',
           //'src/stream.js',
