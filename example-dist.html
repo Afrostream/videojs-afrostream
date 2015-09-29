@@ -46,14 +46,23 @@
        width="600"
        crossorigin
        controls>
+    <!--<source-->
+    <!--src="http://origin.afrostream.tv/vod/FF_112_Afrostream_V2/98a76e65b74d03a8.ism/98a76e65b74d03a8.mpd"-->
+    <!--type="application/dash+xml">-->
     <source
-            src="http://origin.afrostream.tv/vod/FF_112_Afrostream_V2/98a76e65b74d03a8.ism/98a76e65b74d03a8.mpd"
-            type="application/dash+xml">
+            src="http://solutions.brightcove.com/jwhisenant/hls/apple/bipbop/bipbopall.m3u8"
+            type="application/x-mpegURL">
     <track src="https://afrostream-img.s3-eu-west-1.amazonaws.com/production/caption/2015/09/913ed362da38f821ed4b-vimeocom136679382.fr.vtt"
            kind="captions" srclang="fr" label="fr">
 </video>
 <script>
     videojs.options.flash.swf = 'node_modules/videojs-swf/dist/video-js.swf';
+    videojs.options.hls = {
+        swf: 'node_modules/videojs-swf/dist/video-js.swf',
+        params: {
+            wmode: 'opaque'
+        }
+    }
     // initialize the player
     var player = videojs('video');
 </script>
