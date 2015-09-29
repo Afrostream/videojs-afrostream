@@ -15,7 +15,7 @@
 
   // Pass this if window is not defined yet
 }(typeof window !== 'undefined' ? window : this, function (window, noGlobal) { /*jshint unused:false*/
-  /*! videojs-afrostream - v0.17.5 - 2015-09-28
+  /*! videojs-afrostream - v0.17.5 - 2015-09-29
 * Copyright (c) 2015 Brightcove; Licensed  */
 // HTML5 Shiv. Must be in <head> to support older browsers.
 document.createElement('video');
@@ -17812,7 +17812,7 @@ default_sample_flags:"default_sample_flags",flags:"flags"},h={version:"version",
   videojs.Html5DashJS = Html5DashJS;
 })(window, window.videojs);
 
-/*! videojs-chromecast - v1.1.1 - 2015-09-10
+/*! videojs-chromecast - v1.1.1 - 2015-09-29
 * https://github.com/kim-company/videojs-chromecast
 * Copyright (c) 2015 KIM Keep In Mind GmbH, srl; Licensed MIT */
 
@@ -17860,6 +17860,8 @@ default_sample_flags:"default_sample_flags",flags:"flags"},h={version:"version",
 
     ChromecastComponent.prototype.timerStep = 1000;
 
+    ChromecastComponent.prototype.tryingReconnect = 0;
+
     function ChromecastComponent(player, settings) {
       this.settings = settings;
       ChromecastComponent.__super__.constructor.call(this, player, this.settings);
@@ -17877,8 +17879,12 @@ default_sample_flags:"default_sample_flags",flags:"flags"},h={version:"version",
       }
       if (!chrome.cast || !chrome.cast.isAvailable) {
         vjs.log("Cast APIs not available. Retrying...");
-        setTimeout(this.initializeApi.bind(this), 1000);
-        return;
+        if (this.tryingReconnect < 3) {
+          setTimeout(this.initializeApi.bind(this), 1000);
+          vjs.log("Cast APIs not available. Max reconnect attempt");
+          ++this.tryingReconnect;
+          return;
+        }
       }
       vjs.log("Cast APIs are available");
       appId = this.settings.appId || chrome.cast.media.DEFAULT_MEDIA_RECEIVER_APP_ID;
