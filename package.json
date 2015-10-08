@@ -24,6 +24,7 @@
     "grunt-contrib-clean": "~0.4.0",
     "grunt-contrib-concat": "~0.3.0",
     "grunt-contrib-connect": "~0.6.0",
+    "grunt-contrib-copy": "^0.8.1",
     "grunt-contrib-jshint": "~0.6.0",
     "grunt-contrib-uglify": "~0.2.0",
     "grunt-contrib-watch": "~0.4.0",
@@ -48,10 +49,9 @@
   "dependencies": {
     "dashjs": "https://github.com/Dash-Industry-Forum/dash.js.git#v1.5.0",
     "pkcs7": "^0.2.3",
-    "video.js": "^4.12.15",
-    "videojs-chromecast": "https://github.com/Afrostream/videojs-chromecast.git#master",
-    "videojs-contrib-dash": "^1.1.1",
+    "videojs-chromecast": "git+https://github.com/Afrostream/videojs-chromecast.git#master",
+    "videojs-contrib-dash": "git+https://github.com/Afrostream/videojs-contrib-dash.git#switch-bitrate",
     "videojs-contrib-media-sources": "^1.0.0",
-    "videojs-swf": "^4.7.4"
+    "videojs-swf": "git+https://github.com/Afrostream/video-js-swf.git#feature/stage-video-hardware-accelerated"
   }
 }

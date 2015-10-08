@@ -15,7 +15,7 @@
 
   // Pass this if window is not defined yet
 }(typeof window !== 'undefined' ? window : this, function (window, noGlobal) { /*jshint unused:false*/
-  /*! videojs-afrostream - v0.17.5 - 2015-09-22
+  /*! videojs-afrostream - v0.17.5 - 2015-09-29
 * Copyright (c) 2015 Brightcove; Licensed  */
 // HTML5 Shiv. Must be in <head> to support older browsers.
 document.createElement('video');
@@ -17202,26 +17202,179 @@ mediaSourceExt:void 0,timelineConverter:void 0,protectionExt:void 0,timeSyncCont
 k.presentationStartTime=f,k.clientTimeOffset=g,k.currentTime=h,k.buffered=i,k.latency=j,l.ManifestUpdate.push(k),this.metricAdded(a,this.adapter.metricsList.MANIFEST_UPDATE,k),k},updateManifestUpdateInfo:function(a,b){if(a){for(var c in b)a[c]=b[c];this.metricUpdated(a.mediaType,this.adapter.metricsList.MANIFEST_UPDATE,a)}},addManifestUpdateStreamInfo:function(a,b,c,d,e){if(a){var f=new MediaPlayer.vo.metrics.ManifestUpdate.StreamInfo;return f.id=b,f.index=c,f.start=d,f.duration=e,a.streamInfo.push(f),this.metricUpdated(a.mediaType,this.adapter.metricsList.MANIFEST_UPDATE_STREAM_INFO,a),f}return null},addManifestUpdateRepresentationInfo:function(a,b,c,d,e,f,g,h){if(a){var i=new MediaPlayer.vo.metrics.ManifestUpdate.TrackInfo;return i.id=b,i.index=c,i.streamIndex=d,i.mediaType=e,i.startNumber=g,i.fragmentInfoType=h,i.presentationTimeOffset=f,a.trackInfo.push(i),this.metricUpdated(a.mediaType,this.adapter.metricsList.MANIFEST_UPDATE_TRACK_INFO,a),i}return null},addPlayList:function(a,b,c,d){var e=new MediaPlayer.vo.metrics.PlayList;return e.stream=a,e.start=b,e.mstart=c,e.starttype=d,this.getMetricsFor(a).PlayList.push(e),this.metricAdded(a,this.adapter.metricsList.PLAY_LIST,e),e},appendPlayListTrace:function(a,b,c,d,e,f,g,h){var i=new MediaPlayer.vo.metrics.PlayList.Trace;return i.representationid=b,i.subreplevel=c,i.start=d,i.mstart=e,i.duration=f,i.playbackspeed=g,i.stopreason=h,a.trace.push(i),this.metricUpdated(a.stream,this.adapter.metricsList.PLAY_LIST_TRACE,a),i}}},MediaPlayer.models.MetricsModel.prototype={constructor:MediaPlayer.models.MetricsModel},MediaPlayer.models.ProtectionModel=function(){},MediaPlayer.models.ProtectionModel.eventList={ENAME_NEED_KEY:"needkey",ENAME_KEY_SYSTEM_ACCESS_COMPLETE:"keySystemAccessComplete",ENAME_KEY_SYSTEM_SELECTED:"keySystemSelected",ENAME_VIDEO_ELEMENT_SELECTED:"videoElementSelected",ENAME_SERVER_CERTIFICATE_UPDATED:"serverCertificateUpdated",ENAME_KEY_MESSAGE:"keyMessage",ENAME_KEY_ADDED:"keyAdded",ENAME_KEY_ERROR:"keyError",ENAME_KEY_SESSION_CREATED:"keySessionCreated",ENAME_KEY_SESSION_REMOVED:"keySessionRemoved",ENAME_KEY_SESSION_CLOSED:"keySessionClosed",ENAME_KEY_STATUSES_CHANGED:"keyStatusesChanged",ENAME_TEARDOWN_COMPLETE:"protectionTeardownComplete"},MediaPlayer.models.ProtectionModel_01b=function(){var a,b=null,c=null,d=[],e=[],f=function(){var b=this;return{handleEvent:function(f){var g=null;switch(f.type){case c.needkey:var i=ArrayBuffer.isView(f.initData)?f.initData.buffer:f.initData;b.notify(MediaPlayer.models.ProtectionModel.eventList.ENAME_NEED_KEY,new MediaPlayer.vo.protection.NeedKey(i,"cenc"));break;case c.keyerror:if(g=h(e,f.sessionId),g||(g=h(d,f.sessionId)),g){var j="";switch(f.errorCode.code){case 1:j+="MEDIA_KEYERR_UNKNOWN - An unspecified error occurred. This value is used for errors that don't match any of the other codes.";break;case 2:j+="MEDIA_KEYERR_CLIENT - The Key System could not be installed or updated.";break;case 3:j+="MEDIA_KEYERR_SERVICE - The message passed into update indicated an error from the license service.";break;case 4:j+="MEDIA_KEYERR_OUTPUT - There is no available output device with the required characteristics for the content protection system.";break;case 5:j+="MEDIA_KEYERR_HARDWARECHANGE - A hardware configuration change caused a content protection error.";break;case 6:j+="MEDIA_KEYERR_DOMAIN - An error occurred in a multi-device domain licensing configuration. The most common error is a failure to join the domain."}j+="  System Code = "+f.systemCode,b.notify(MediaPlayer.models.ProtectionModel.eventList.ENAME_KEY_ERROR,new MediaPlayer.vo.protection.KeyError(g,j))}else b.log("No session token found for key error");break;case c.keyadded:g=h(e,f.sessionId),g||(g=h(d,f.sessionId)),g?b.notify(MediaPlayer.models.ProtectionModel.eventList.ENAME_KEY_ADDED,g):b.log("No session token found for key added");break;case c.keymessage:if(a=null!==f.sessionId&&void 0!==f.sessionId,a?(g=h(e,f.sessionId),!g&&d.length>0&&(g=d.shift(),e.push(g),g.sessionID=f.sessionId)):d.length>0&&(g=d.shift(),e.push(g),0!==d.length&&b.errHandler.mediaKeyMessageError("Multiple key sessions were creates with a user-agent that does not support sessionIDs!! Unpredictable behavior ahead!")),g){var k=ArrayBuffer.isView(f.message)?f.message.buffer:f.message;g.keyMessage=k,b.notify(MediaPlayer.models.ProtectionModel.eventList.ENAME_KEY_MESSAGE,new MediaPlayer.vo.protection.KeyMessage(g,k,f.defaultURL))}else b.log("No session token found for key message")}}}},g=null,h=function(a,b){if(b&&a){for(var c=a.length,d=0;c>d;d++)if(a[d].sessionID==b)return a[d];return null}return null},i=function(){b.removeEventListener(c.keyerror,g),b.removeEventListener(c.needkey,g),b.removeEventListener(c.keymessage,g),b.removeEventListener(c.keyadded,g)};return{system:void 0,log:void 0,errHandler:void 0,notify:void 0,subscribe:void 0,unsubscribe:void 0,protectionExt:void 0,keySystem:null,setup:function(){g=f.call(this)},init:function(){var a=document.createElement("video");c=MediaPlayer.models.ProtectionModel_01b.detect(a)},teardown:function(){b&&i();for(var a=0;a<e.length;a++)this.closeKeySession(e[a]);this.notify(MediaPlayer.models.ProtectionModel.eventList.ENAME_TEARDOWN_COMPLETE)},getAllInitData:function(){var a,b=[];for(a=0;a<d.length;a++)b.push(d[a].initData);for(a=0;a<e.length;a++)b.push(e[a].initData);return b},requestKeySystemAccess:function(a){var c=b;c||(c=document.createElement("video"));for(var d=!1,e=0;e<a.length;e++)for(var f=a[e].ks.systemString,g=a[e].configs,h=null,i=null,j=0;j<g.length;j++){var k=g[j].videoCapabilities;if(k&&0!==k.length){i=[];for(var l=0;l<k.length;l++)""!==c.canPlayType(k[l].contentType,f)&&i.push(k[l])}if(!(!h&&!i||h&&0===h.length||i&&0===i.length)){d=!0;var m=new MediaPlayer.vo.protection.KeySystemConfiguration(h,i),n=this.protectionExt.getKeySystemBySystemString(f),o=new MediaPlayer.vo.protection.KeySystemAccess(n,m);this.notify(MediaPlayer.models.ProtectionModel.eventList.ENAME_KEY_SYSTEM_ACCESS_COMPLETE,o);break}}d||this.notify(MediaPlayer.models.ProtectionModel.eventList.ENAME_KEY_SYSTEM_ACCESS_COMPLETE,null,"Key system access denied! -- No valid audio/video content configurations detected!")},selectKeySystem:function(a){this.keySystem=a.keySystem,this.notify(MediaPlayer.models.ProtectionModel.eventList.ENAME_KEY_SYSTEM_SELECTED)},setMediaElement:function(a){b!==a&&(b&&i(),b=a,b&&(b.addEventListener(c.keyerror,g),b.addEventListener(c.needkey,g),b.addEventListener(c.keymessage,g),b.addEventListener(c.keyadded,g),this.notify(MediaPlayer.models.ProtectionModel.eventList.ENAME_VIDEO_ELEMENT_SELECTED)))},createKeySession:function(f){if(!this.keySystem)throw new Error("Can not create sessions until you have selected a key system");if(a||0===e.length){var g={sessionID:null,initData:f,getSessionID:function(){return this.sessionID},getExpirationTime:function(){return NaN},getSessionType:function(){return"temporary"}};return d.push(g),b[c.generateKeyRequest](this.keySystem.systemString,new Uint8Array(f)),g}throw new Error("Multiple sessions not allowed!")},updateKeySession:function(a,d){var e=a.sessionID;if(this.protectionExt.isClearKey(this.keySystem))for(var f=0;f<d.keyPairs.length;f++)b[c.addKey](this.keySystem.systemString,d.keyPairs[f].key,d.keyPairs[f].keyID,e);else b[c.addKey](this.keySystem.systemString,new Uint8Array(d),a.initData,e)},closeKeySession:function(a){b[c.cancelKeyRequest](this.keySystem.systemString,a.sessionID)},setServerCertificate:function(){},loadKeySession:function(){},removeKeySession:function(){}}},MediaPlayer.models.ProtectionModel_01b.prototype={constructor:MediaPlayer.models.ProtectionModel_01b},MediaPlayer.models.ProtectionModel_01b.APIs=[{generateKeyRequest:"generateKeyRequest",addKey:"addKey",cancelKeyRequest:"cancelKeyRequest",needkey:"needkey",keyerror:"keyerror",keyadded:"keyadded",keymessage:"keymessage"},{generateKeyRequest:"webkitGenerateKeyRequest",addKey:"webkitAddKey",cancelKeyRequest:"webkitCancelKeyRequest",needkey:"webkitneedkey",keyerror:"webkitkeyerror",keyadded:"webkitkeyadded",keymessage:"webkitkeymessage"}],MediaPlayer.models.ProtectionModel_01b.detect=function(a){for(var b=MediaPlayer.models.ProtectionModel_01b.APIs,c=0;c<b.length;c++){var d=b[c];if("function"==typeof a[d.generateKeyRequest]&&"function"==typeof a[d.addKey]&&"function"==typeof a[d.cancelKeyRequest])return d}return null},MediaPlayer.models.ProtectionModel_21Jan2015=function(){var a=null,b=null,c=[],d=function(a,b){var c=this;!function(b){var e=a[b].ks,f=a[b].configs;navigator.requestMediaKeySystemAccess(e.systemString,f).then(function(a){var b="function"==typeof a.getConfiguration?a.getConfiguration():null,d=new MediaPlayer.vo.protection.KeySystemAccess(e,b);d.mksa=a,c.notify(MediaPlayer.models.ProtectionModel.eventList.ENAME_KEY_SYSTEM_ACCESS_COMPLETE,d)})["catch"](function(){++b<a.length?d.call(c,a,b):c.notify(MediaPlayer.models.ProtectionModel.eventList.ENAME_KEY_SYSTEM_ACCESS_COMPLETE,null,"Key system access denied!")})}(b)},e=function(a){var b=a.session;return b.removeEventListener("keystatuseschange",a),b.removeEventListener("message",a),b.close()},f=function(){var a=this;return{handleEvent:function(b){switch(b.type){case"encrypted":if(b.initData){var c=ArrayBuffer.isView(b.initData)?b.initData.buffer:b.initData;a.notify(MediaPlayer.models.ProtectionModel.eventList.ENAME_NEED_KEY,new MediaPlayer.vo.protection.NeedKey(c,b.initDataType))}}}}},g=null,h=function(a){for(var b=0;b<c.length;b++)if(c[b]===a){c.splice(b,1);break}},i=function(a,b,d){var e=this,f={session:a,initData:b,handleEvent:function(a){switch(a.type){case"keystatuseschange":e.notify(MediaPlayer.models.ProtectionModel.eventList.ENAME_KEY_STATUSES_CHANGED,this);break;case"message":var b=ArrayBuffer.isView(a.message)?a.message.buffer:a.message;e.notify(MediaPlayer.models.ProtectionModel.eventList.ENAME_KEY_MESSAGE,new MediaPlayer.vo.protection.KeyMessage(this,b,void 0,a.messageType))}},getSessionID:function(){return this.session.sessionId},getExpirationTime:function(){return this.session.expiration},getKeyStatuses:function(){return this.session.keyStatuses},getSessionType:function(){return d}};return a.addEventListener("keystatuseschange",f),a.addEventListener("message",f),a.closed.then(function(){h(f),e.notify(MediaPlayer.models.ProtectionModel.eventList.ENAME_KEY_SESSION_CLOSED,f.getSessionID())}),c.push(f),f};return{system:void 0,notify:void 0,subscribe:void 0,unsubscribe:void 0,protectionExt:void 0,keySystem:null,setup:function(){g=f.call(this)},init:function(){},teardown:function(){var b,d=c.length,f=this;if(0!==d)for(var i=function(b){h(b),0===c.length&&(a?(a.removeEventListener("encrypted",g),a.setMediaKeys(null).then(function(){f.notify(MediaPlayer.models.ProtectionModel.eventList.ENAME_TEARDOWN_COMPLETE)})):f.notify(MediaPlayer.models.ProtectionModel.eventList.ENAME_TEARDOWN_COMPLETE))},j=0;d>j;j++)b=c[j],function(a){b.session.closed.then(function(){i(a)}),e(b)["catch"](function(){i(a)})}(b);else this.notify(MediaPlayer.models.ProtectionModel.eventList.ENAME_TEARDOWN_COMPLETE)},getAllInitData:function(){for(var a=[],b=0;b<c.length;b++)a.push(c[b].initData);return a},requestKeySystemAccess:function(a){d.call(this,a,0)},selectKeySystem:function(c){var d=this;c.mksa.createMediaKeys().then(function(e){d.keySystem=c.keySystem,b=e,a&&a.setMediaKeys(b),d.notify(MediaPlayer.models.ProtectionModel.eventList.ENAME_KEY_SYSTEM_SELECTED)})["catch"](function(){d.notify(MediaPlayer.models.ProtectionModel.eventList.ENAME_KEY_SYSTEM_SELECTED,null,"Error selecting keys system ("+c.keySystem.systemString+")! Could not create MediaKeys -- TODO")})},setMediaElement:function(c){a!==c&&(a&&(a.removeEventListener("encrypted",g),a.setMediaKeys(null)),a=c,a&&(a.addEventListener("encrypted",g),b&&a.setMediaKeys(b)))},setServerCertificate:function(a){if(!this.keySystem||!b)throw new Error("Can not set server certificate until you have selected a key system");var c=this;b.setServerCertificate(a).then(function(){c.notify(MediaPlayer.models.ProtectionModel.eventList.ENAME_SERVER_CERTIFICATE_UPDATED)})["catch"](function(a){c.notify(MediaPlayer.models.ProtectionModel.eventList.ENAME_SERVER_CERTIFICATE_UPDATED,null,"Error updating server certificate -- "+a.name)})},createKeySession:function(a,c){if(!this.keySystem||!b)throw new Error("Can not create sessions until you have selected a key system");var d=b.createSession(c),e=i.call(this,d,a,c),f=this;d.generateRequest("cenc",a).then(function(){f.notify(MediaPlayer.models.ProtectionModel.eventList.ENAME_KEY_SESSION_CREATED,e)})["catch"](function(a){h(e),f.notify(MediaPlayer.models.ProtectionModel.eventList.ENAME_KEY_SESSION_CREATED,null,"Error generating key request -- "+a.name)})},updateKeySession:function(a,b){var c=a.session,d=this;this.protectionExt.isClearKey(this.keySystem)&&(b=b.toJWK()),c.update(b)["catch"](function(b){d.notify(MediaPlayer.models.ProtectionModel.eventList.ENAME_KEY_ERROR,new MediaPlayer.vo.protection.KeyError(a,"Error sending update() message! "+b.name))})},loadKeySession:function(a){if(!this.keySystem||!b)throw new Error("Can not load sessions until you have selected a key system");var c=b.createSession(),d=this;c.load(a).then(function(b){if(b){var e=i.call(this,c);d.notify(MediaPlayer.models.ProtectionModel.eventList.ENAME_KEY_SESSION_CREATED,e)}else d.notify(MediaPlayer.models.ProtectionModel.eventList.ENAME_KEY_SESSION_CREATED,null,"Could not load session! Invalid Session ID ("+a+")")})["catch"](function(b){d.notify(MediaPlayer.models.ProtectionModel.eventList.ENAME_KEY_SESSION_CREATED,null,"Could not load session ("+a+")! "+b.name)})},removeKeySession:function(a){var b=a.session,c=this;b.remove().then(function(){c.notify(MediaPlayer.models.ProtectionModel.eventList.ENAME_KEY_SESSION_REMOVED,a.getSessionID())},function(b){c.notify(MediaPlayer.models.ProtectionModel.eventList.ENAME_KEY_SESSION_REMOVED,null,"Error removing session ("+a.getSessionID()+"). "+b.name)})},closeKeySession:function(a){var b=this;e(a)["catch"](function(c){h(a),b.notify(MediaPlayer.models.ProtectionModel.eventList.ENAME_KEY_SESSION_CLOSED,null,"Error closing session ("+a.getSessionID()+") "+c.name)})}}},MediaPlayer.models.ProtectionModel_21Jan2015.detect=function(a){return void 0===a.onencrypted||void 0===a.mediaKeys?!1:void 0===navigator.requestMediaKeySystemAccess||"function"!=typeof navigator.requestMediaKeySystemAccess?!1:!0},MediaPlayer.models.ProtectionModel_21Jan2015.prototype={constructor:MediaPlayer.models.ProtectionModel_21Jan2015},MediaPlayer.models.ProtectionModel_3Feb2014=function(){var a=null,b=null,c=null,d=null,e=[],f=function(){var a=this;return{handleEvent:function(b){switch(b.type){case d.needkey:if(b.initData){var c=ArrayBuffer.isView(b.initData)?b.initData.buffer:b.initData;a.notify(MediaPlayer.models.ProtectionModel.eventList.ENAME_NEED_KEY,new MediaPlayer.vo.protection.NeedKey(c,"cenc"))}}}}},g=null,h=function(){var c=null,e=function(){a.removeEventListener("loadedmetadata",c),a[d.setMediaKeys](b),this.notify(MediaPlayer.models.ProtectionModel.eventList.ENAME_VIDEO_ELEMENT_SELECTED)};a.readyState>=1?e.call(this):(c=e.bind(this),a.addEventListener("loadedmetadata",c))},i=function(a,b){var c=this;return{session:a,initData:b,handleEvent:function(a){switch(a.type){case d.error:var b="KeyError";c.notify(MediaPlayer.models.ProtectionModel.eventList.ENAME_KEY_ERROR,new MediaPlayer.vo.protection.KeyError(this,b));break;case d.message:var e=ArrayBuffer.isView(a.message)?a.message.buffer:a.message;c.notify(MediaPlayer.models.ProtectionModel.eventList.ENAME_KEY_MESSAGE,new MediaPlayer.vo.protection.KeyMessage(this,e,a.destinationURL));break;case d.ready:c.notify(MediaPlayer.models.ProtectionModel.eventList.ENAME_KEY_ADDED,this);break;case d.close:c.notify(MediaPlayer.models.ProtectionModel.eventList.ENAME_KEY_SESSION_CLOSED,this.getSessionID())}},getSessionID:function(){return this.session.sessionId},getExpirationTime:function(){return NaN},getSessionType:function(){return"temporary"}}};return{system:void 0,notify:void 0,subscribe:void 0,unsubscribe:void 0,protectionExt:void 0,keySystem:null,setup:function(){g=f.call(this)},init:function(){var a=document.createElement("video");d=MediaPlayer.models.ProtectionModel_3Feb2014.detect(a)},teardown:function(){try{for(var b=0;b<e.length;b++)this.closeKeySession(e[b]);a&&a.removeEventListener(d.needkey,g),this.notify(MediaPlayer.models.ProtectionModel.eventList.ENAME_TEARDOWN_COMPLETE)}catch(c){this.notify(MediaPlayer.models.ProtectionModel.eventList.ENAME_TEARDOWN_COMPLETE,null,"Error tearing down key sessions and MediaKeys! -- "+c.message)}},getAllInitData:function(){for(var a=[],b=0;b<e.length;b++)a.push(e[b].initData);return a},requestKeySystemAccess:function(a){for(var b=!1,c=0;c<a.length;c++)for(var e=a[c].ks.systemString,f=a[c].configs,g=null,h=null,i=0;i<f.length;i++){var j=f[i].audioCapabilities,k=f[i].videoCapabilities;if(j&&0!==j.length){g=[];for(var l=0;l<j.length;l++)window[d.MediaKeys].isTypeSupported(e,j[l].contentType)&&g.push(j[l])}if(k&&0!==k.length){h=[];for(var m=0;m<k.length;m++)window[d.MediaKeys].isTypeSupported(e,k[m].contentType)&&h.push(k[m])}if(!(!g&&!h||g&&0===g.length||h&&0===h.length)){b=!0;var n=new MediaPlayer.vo.protection.KeySystemConfiguration(g,h),o=this.protectionExt.getKeySystemBySystemString(e),p=new MediaPlayer.vo.protection.KeySystemAccess(o,n);this.notify(MediaPlayer.models.ProtectionModel.eventList.ENAME_KEY_SYSTEM_ACCESS_COMPLETE,p);break}}b||this.notify(MediaPlayer.models.ProtectionModel.eventList.ENAME_KEY_SYSTEM_ACCESS_COMPLETE,null,"Key system access denied! -- No valid audio/video content configurations detected!")},selectKeySystem:function(e){try{b=e.mediaKeys=new window[d.MediaKeys](e.keySystem.systemString),this.keySystem=e.keySystem,c=e,a&&h.call(this),this.notify(MediaPlayer.models.ProtectionModel.eventList.ENAME_KEY_SYSTEM_SELECTED)}catch(f){this.notify(MediaPlayer.models.ProtectionModel.eventList.ENAME_KEY_SYSTEM_SELECTED,null,"Error selecting keys system ("+this.keySystem.systemString+")! Could not create MediaKeys -- TODO")}},setMediaElement:function(c){a!==c&&(a&&a.removeEventListener(d.needkey,g),a=c,a&&(a.addEventListener(d.needkey,g),b&&h.call(this)))},createKeySession:function(a){if(!this.keySystem||!b||!c)throw new Error("Can not create sessions until you have selected a key system");var f=c.ksConfiguration.videoCapabilities[0].contentType,g=b.createSession(f,new Uint8Array(a)),h=i.call(this,g,a);g.addEventListener(d.error,h),g.addEventListener(d.message,h),g.addEventListener(d.ready,h),g.addEventListener(d.close,h),e.push(h),this.notify(MediaPlayer.models.ProtectionModel.eventList.ENAME_KEY_SESSION_CREATED,h)},updateKeySession:function(a,b){var c=a.session;this.protectionExt.isClearKey(this.keySystem)?c.update(new Uint8Array(b.toJWK())):c.update(new Uint8Array(b))},closeKeySession:function(a){var b=a.session;b.removeEventListener(d.error,a),b.removeEventListener(d.message,a),b.removeEventListener(d.ready,a),b.removeEventListener(d.close,a);for(var c=0;c<e.length;c++)if(e[c]===a){e.splice(c,1);break}b[d.release]()},setServerCertificate:function(){},loadKeySession:function(){},removeKeySession:function(){}}},MediaPlayer.models.ProtectionModel_3Feb2014.APIs=[{setMediaKeys:"setMediaKeys",MediaKeys:"MediaKeys",release:"close",needkey:"needkey",error:"keyerror",message:"keymessage",ready:"keyadded",close:"keyclose"},{setMediaKeys:"msSetMediaKeys",MediaKeys:"MSMediaKeys",release:"close",needkey:"msneedkey",error:"mskeyerror",message:"mskeymessage",ready:"mskeyadded",close:"mskeyclose"}],MediaPlayer.models.ProtectionModel_3Feb2014.detect=function(a){for(var b=MediaPlayer.models.ProtectionModel_3Feb2014.APIs,c=0;c<b.length;c++){var d=b[c];if("function"==typeof a[d.setMediaKeys]&&"function"==typeof window[d.MediaKeys])return d}return null},MediaPlayer.models.ProtectionModel_3Feb2014.prototype={constructor:MediaPlayer.models.ProtectionModel_3Feb2014},MediaPlayer.models.URIQueryAndFragmentModel=function(){"use strict";var a=new MediaPlayer.vo.URIFragmentData,b=[],c=function(c){function d(a,b,c,d){var e=d[0].split(/[=]/);return d.push({key:e[0],value:e[1]}),d.shift(),d}function e(a,c,d){return c>0&&(j&&0===b.length?b=d[c].split(/[&]/):k&&(g=d[c].split(/[&]/))),d}if(!c)return null;var f,g=[],h=new RegExp(/[?]/),i=new RegExp(/[#]/),j=h.test(c),k=i.test(c);return f=c.split(/[?#]/).map(e),b.length>0&&(b=b.reduce(d,null)),g.length>0&&(g=g.reduce(d,null),g.forEach(function(b){a[b.key]=b.value})),c};return{parseURI:c,getURIFragmentData:function(){return a},getURIQueryData:function(){return b},reset:function(){a=new MediaPlayer.vo.URIFragmentData,b=[]}}},MediaPlayer.models.URIQueryAndFragmentModel.prototype={constructor:MediaPlayer.models.URIQueryAndFragmentModel},MediaPlayer.models.VideoModel=function(){"use strict";var a,b,c=[],d=function(){return c.length>0},e=function(b){null===b||a.seeking||(this.setPlaybackRate(0),c[b]!==!0&&(c.push(b),c[b]=!0))},f=function(a){if(null!==a){c[a]=!1;var b=c.indexOf(a);-1!==b&&c.splice(b,1),d()===!1&&this.setPlaybackRate(1)}},g=function(a,b){b?e.call(this,a):f.call(this,a)};return{system:void 0,play:function(){a.play()},pause:function(){a.pause()},isPaused:function(){return a.paused},getPlaybackRate:function(){return a.playbackRate},setPlaybackRate:function(b){!a||a.readyState<2||(a.playbackRate=b)},getCurrentTime:function(){return a.currentTime},setCurrentTime:function(b){if(a.currentTime!=b)try{a.currentTime=b}catch(c){0===a.readyState&&c.code===c.INVALID_STATE_ERR&&setTimeout(function(){a.currentTime=b},400)}},setStallState:function(a,b){g.call(this,a,b)},listen:function(b,c){a.addEventListener(b,c,!1)},unlisten:function(b,c){a.removeEventListener(b,c,!1)},getElement:function(){return a},setElement:function(b){a=b},getTTMLRenderingDiv:function(){return b},setTTMLRenderingDiv:function(a){b=a,b.style.position="absolute",b.style.display="flex",b.style.overflow="hidden",b.style.zIndex=2147483647,b.style.pointerEvents="none",b.style.top=0,b.style.left=0},setSource:function(b){a.src=b}}},MediaPlayer.models.VideoModel.prototype={constructor:MediaPlayer.models.VideoModel},MediaPlayer.dependencies.protection.CommonEncryption={findCencContentProtection:function(a){for(var b=null,c=0;c<a.length;++c){var d=a[c];"urn:mpeg:dash:mp4protection:2011"===d.schemeIdUri.toLowerCase()&&"cenc"===d.value.toLowerCase()&&(b=d)}return b},getPSSHData:function(a){var b=8,c=new DataView(a),d=c.getUint8(b);return b+=20,d>0&&(b+=4+16*c.getUint32(b)),b+=4,a.slice(b)},getPSSHForKeySystem:function(a,b){var c=MediaPlayer.dependencies.protection.CommonEncryption.parsePSSHList(b);return c.hasOwnProperty(a.uuid.toLowerCase())?c[a.uuid.toLowerCase()]:null},parseInitDataFromContentProtection:function(a){return"pssh"in a?BASE64.decodeArray(a.pssh.__text).buffer:null},parsePSSHList:function(a){if(null===a)return[];for(var b=new DataView(a),c=!1,d={},e=0;!c;){var f,g,h,i,j,k=e;if(e>=b.buffer.byteLength)break;if(f=b.getUint32(e),g=e+f,e+=4,1886614376===b.getUint32(e))if(e+=4,h=b.getUint8(e),0===h||1===h){e+=1,e+=3,i="";var l,m;for(l=0;4>l;l++)m=b.getUint8(e+l).toString(16),i+=1===m.length?"0"+m:m;for(e+=4,i+="-",l=0;2>l;l++)m=b.getUint8(e+l).toString(16),i+=1===m.length?"0"+m:m;for(e+=2,i+="-",l=0;2>l;l++)m=b.getUint8(e+l).toString(16),i+=1===m.length?"0"+m:m;for(e+=2,i+="-",l=0;2>l;l++)m=b.getUint8(e+l).toString(16),i+=1===m.length?"0"+m:m;for(e+=2,i+="-",l=0;6>l;l++)m=b.getUint8(e+l).toString(16),i+=1===m.length?"0"+m:m;e+=6,i=i.toLowerCase(),j=b.getUint32(e),e+=4,d[i]=b.buffer.slice(k,g),e=g}else e=g;else e=g}return d}},MediaPlayer.dependencies.protection.KeySystem=function(){},MediaPlayer.dependencies.protection.KeySystem_Access=function(){"use strict"},MediaPlayer.dependencies.protection.KeySystem_Access.prototype={constructor:MediaPlayer.dependencies.protection.KeySystem_Access},MediaPlayer.dependencies.protection.KeySystem_ClearKey=function(){"use strict";var a="org.w3.clearkey",b="1077efec-c0b2-4d02-ace3-3c1e52e2fb4b";return{system:void 0,schemeIdURI:"urn:uuid:"+b,systemString:a,uuid:b,getInitData:MediaPlayer.dependencies.protection.CommonEncryption.parseInitDataFromContentProtection,getRequestHeadersFromMessage:function(){return null},getLicenseRequestFromMessage:function(a){return new Uint8Array(a)},getLicenseServerURLFromInitData:function(){return null}}},MediaPlayer.dependencies.protection.KeySystem_ClearKey.prototype={constructor:MediaPlayer.dependencies.protection.KeySystem_ClearKey},MediaPlayer.dependencies.protection.KeySystem_ClearKey.getClearKeysFromProtectionData=function(a,b){var c=null;if(a){for(var d=JSON.parse(String.fromCharCode.apply(null,new Uint8Array(b))),e=[],f=0;f<d.kids.length;f++){var g=d.kids[f],h=a.clearkeys.hasOwnProperty(g)?a.clearkeys[g]:null;if(!h)throw new Error("DRM: ClearKey keyID ("+g+") is not known!");e.push(new MediaPlayer.vo.protection.KeyPair(g,h))}c=new MediaPlayer.vo.protection.ClearKeyKeySet(e)}return c},MediaPlayer.dependencies.protection.KeySystem_PlayReady=function(){"use strict";var a="com.microsoft.playready",b="9a04f079-9840-4286-ab92-e65be0885f95",c="utf16",d=function(a){var b,d,e={},f=new DOMParser,g="utf16"===c?new Uint16Array(a):new Uint8Array(a);b=String.fromCharCode.apply(null,g),d=f.parseFromString(b,"application/xml");for(var h=d.getElementsByTagName("name"),i=d.getElementsByTagName("value"),j=0;j<h.length;j++)e[h[j].childNodes[0].nodeValue]=i[j].childNodes[0].nodeValue;return e.hasOwnProperty("Content")&&(e["Content-Type"]=e.Content,delete e.Content),e},e=function(a){var b,d,e=new DOMParser,f=null,g="utf16"===c?new Uint16Array(a):new Uint8Array(a);if(b=String.fromCharCode.apply(null,g),d=e.parseFromString(b,"application/xml"),d.getElementsByTagName("Challenge")[0]){var h=d.getElementsByTagName("Challenge")[0].childNodes[0].nodeValue;h&&(f=BASE64.decode(h))}return f},f=function(a){if(a)for(var b=new DataView(a),c=b.getUint16(4,!0),d=6,e=new DOMParser,f=0;c>f;f++){var g=b.getUint16(d,!0);d+=2;var h=b.getUint16(d,!0);if(d+=2,1===g){var i=a.slice(d,d+h),j=String.fromCharCode.apply(null,new Uint16Array(i)),k=e.parseFromString(j,"application/xml");if(k.getElementsByTagName("LA_URL")[0]){var l=k.getElementsByTagName("LA_URL")[0].childNodes[0].nodeValue;if(l)return l}if(k.getElementsByTagName("LUI_URL")[0]){var m=k.getElementsByTagName("LUI_URL")[0].childNodes[0].nodeValue;if(m)return m}}else d+=h}return null},g=function(a){var b,c,d,e,f,g=0,h=new Uint8Array([112,115,115,104,0,0,0,0]),i=new Uint8Array([154,4,240,121,152,64,66,134,171,146,230,91,224,136,95,149]),j=null;if("pssh"in a)return MediaPlayer.dependencies.protection.CommonEncryption.parseInitDataFromContentProtection(a);if("pro"in a)j=BASE64.decodeArray(a.pro.__text);else{if(!("prheader"in a))return null;j=BASE64.decodeArray(a.prheader.__text)}return b=j.length,c=4+h.length+i.length+4+b,d=new ArrayBuffer(c),e=new Uint8Array(d),f=new DataView(d),f.setUint32(g,c),g+=4,e.set(h,g),g+=h.length,e.set(i,g),g+=i.length,f.setUint32(g,b),g+=4,e.set(j,g),g+=b,e.buffer};return{schemeIdURI:"urn:uuid:"+b,systemString:a,uuid:b,getInitData:g,getRequestHeadersFromMessage:d,getLicenseRequestFromMessage:e,getLicenseServerURLFromInitData:f,setPlayReadyMessageFormat:function(a){if("utf8"!==a&&"utf16"!==a)throw new Error("Illegal PlayReady message format! -- "+a);c=a}}},MediaPlayer.dependencies.protection.KeySystem_PlayReady.prototype={constructor:MediaPlayer.dependencies.protection.KeySystem_PlayReady},MediaPlayer.dependencies.protection.KeySystem_Widevine=function(){"use strict";var a="com.widevine.alpha",b="edef8ba9-79d6-4ace-a3c8-27dcd51d21ed";return{schemeIdURI:"urn:uuid:"+b,systemString:a,uuid:b,getInitData:MediaPlayer.dependencies.protection.CommonEncryption.parseInitDataFromContentProtection,getRequestHeadersFromMessage:function(){return null},getLicenseRequestFromMessage:function(a){return new Uint8Array(a)},getLicenseServerURLFromInitData:function(){return null}}},MediaPlayer.dependencies.protection.KeySystem_Widevine.prototype={constructor:MediaPlayer.dependencies.protection.KeySystem_Widevine},MediaPlayer.dependencies.protection.servers.ClearKey=function(){"use strict";return{getServerURLFromMessage:function(a,b){var c=JSON.parse(String.fromCharCode.apply(null,new Uint8Array(b)));a+="/?";for(var d=0;d<c.kids.length;d++)a+=c.kids[d]+"&";return a=a.substring(0,a.length-1)},getHTTPMethod:function(){return"GET"},getResponseType:function(){return"json"},getLicenseMessage:function(a){if(!a.hasOwnProperty("keys"))return null;var b,c=[];for(b=0;b<a.keys.length;b++){var d=a.keys[b],e=d.kid.replace(/=/g,""),f=d.k.replace(/=/g,"");c.push(new MediaPlayer.vo.protection.KeyPair(e,f))}return new MediaPlayer.vo.protection.ClearKeyKeySet(c)},getErrorResponse:function(a){return String.fromCharCode.apply(null,new Uint8Array(a))}}},MediaPlayer.dependencies.protection.servers.ClearKey.prototype={constructor:MediaPlayer.dependencies.protection.servers.ClearKey},MediaPlayer.dependencies.protection.servers.DRMToday=function(){"use strict";var a={"com.widevine.alpha":{responseType:"json",getLicenseMessage:function(a){return BASE64.decodeArray(a.license)},getErrorResponse:function(a){return a}},"com.microsoft.playready":{responseType:"arraybuffer",getLicenseMessage:function(a){return a},getErrorResponse:function(a){return String.fromCharCode.apply(null,new Uint8Array(a))}}};return{getServerURLFromMessage:function(a){return a},getHTTPMethod:function(){return"POST"},getResponseType:function(b){return a[b].responseType},getLicenseMessage:function(b,c){return a[c].getLicenseMessage(b)},getErrorResponse:function(b,c){return a[c].getErrorResponse(b)}}},MediaPlayer.dependencies.protection.servers.DRMToday.prototype={constructor:MediaPlayer.dependencies.protection.servers.DRMToday},MediaPlayer.dependencies.protection.servers.LicenseServer=function(){},MediaPlayer.dependencies.protection.servers.PlayReady=function(){"use strict";return{getServerURLFromMessage:function(a){return a},getHTTPMethod:function(){return"POST"},getResponseType:function(){return"arraybuffer"},getLicenseMessage:function(a){return a},getErrorResponse:function(a){return String.fromCharCode.apply(null,new Uint8Array(a))}}},MediaPlayer.dependencies.protection.servers.PlayReady.prototype={constructor:MediaPlayer.dependencies.protection.servers.PlayReady},MediaPlayer.dependencies.protection.servers.Widevine=function(){"use strict";return{getServerURLFromMessage:function(a){return a},getHTTPMethod:function(){return"POST"},getResponseType:function(){return"arraybuffer"},getLicenseMessage:function(a){return a},getErrorResponse:function(a){return String.fromCharCode.apply(null,new Uint8Array(a))}}},MediaPlayer.dependencies.protection.servers.Widevine.prototype={constructor:MediaPlayer.dependencies.protection.servers.Widevine},MediaPlayer.rules.ABRRulesCollection=function(){"use strict";var a=[],b=[];return{insufficientBufferRule:void 0,bufferOccupancyRule:void 0,throughputRule:void 0,abandonRequestRule:void 0,getRules:function(c){switch(c){case MediaPlayer.rules.ABRRulesCollection.prototype.QUALITY_SWITCH_RULES:return a;case MediaPlayer.rules.ABRRulesCollection.prototype.ABANDON_FRAGMENT_RULES:return b;default:return null}},setup:function(){a.push(this.insufficientBufferRule),a.push(this.throughputRule),a.push(this.bufferOccupancyRule),b.push(this.abandonRequestRule)}}},MediaPlayer.rules.ABRRulesCollection.prototype={constructor:MediaPlayer.rules.ABRRulesCollection,QUALITY_SWITCH_RULES:"qualitySwitchRules",ABANDON_FRAGMENT_RULES:"abandonFragmentRules"},MediaPlayer.rules.AbandonRequestsRule=function(){"use strict";var a=500,b=1.5,c={},d={},e=function(a,b){c[a]=c[a]||{},c[a][b]=c[a][b]||{}};return{metricsExt:void 0,log:void 0,execute:function(f,g){var h,i=(new Date).getTime(),j=f.getMediaInfo(),k=j.type,l=f.getCurrentValue(),m=f.getTrackInfo(),n=l.data.request,o=f.getStreamProcessor().getABRController(),p=new MediaPlayer.rules.SwitchRequest(MediaPlayer.rules.SwitchRequest.prototype.NO_CHANGE,MediaPlayer.rules.SwitchRequest.prototype.WEAK);if(!isNaN(n.index)){if(e(k,n.index),h=c[k][n.index],
 null===h||null===n.firstByteDate||d.hasOwnProperty(h.id))return void g(p);if(void 0===h.firstByteTime&&(h.firstByteTime=n.firstByteDate.getTime(),h.segmentDuration=n.duration,h.bytesTotal=n.bytesTotal,h.id=n.index),h.bytesLoaded=n.bytesLoaded,h.elapsedTime=i-h.firstByteTime,h.bytesLoaded<h.bytesTotal&&h.elapsedTime>=a){if(h.measuredBandwidthInKbps=Math.round(8*h.bytesLoaded/h.elapsedTime),h.estimatedTimeOfDownload=(8*h.bytesTotal*.001/h.measuredBandwidthInKbps).toFixed(2),h.estimatedTimeOfDownload<h.segmentDuration*b||0===m.quality)return void g(p);if(!d.hasOwnProperty(h.id)){var q=o.getQualityForBitrate(j,h.measuredBandwidthInKbps*MediaPlayer.dependencies.AbrController.BANDWIDTH_SAFETY);p=new MediaPlayer.rules.SwitchRequest(q,MediaPlayer.rules.SwitchRequest.prototype.STRONG),d[h.id]=h,this.log("AbandonRequestsRule ( ",k,"frag id",h.id,") is asking to abandon and switch to quality to ",q," measured bandwidth was",h.measuredBandwidthInKbps),delete c[k][h.id]}}else h.bytesLoaded===h.bytesTotal&&delete c[k][h.id]}g(p)},reset:function(){c={},d={}}}},MediaPlayer.rules.AbandonRequestsRule.prototype={constructor:MediaPlayer.rules.AbandonRequestsRule},MediaPlayer.rules.BufferOccupancyRule=function(){"use strict";var a=0;return{log:void 0,metricsModel:void 0,execute:function(b,c){var d=this,e=(new Date).getTime()/1e3,f=b.getMediaInfo(),g=b.getTrackInfo(),h=f.type,i=isNaN(g.fragmentDuration)?2:g.fragmentDuration/2,j=b.getCurrentValue(),k=b.getStreamProcessor(),l=k.getABRController(),m=this.metricsModel.getReadOnlyMetricsFor(h),n=m.BufferLevel.length>0?m.BufferLevel[m.BufferLevel.length-1]:null,o=m.BufferState.length>0?m.BufferState[m.BufferState.length-1]:null,p=!1,q=f.representationCount-1,r=new MediaPlayer.rules.SwitchRequest(MediaPlayer.rules.SwitchRequest.prototype.NO_CHANGE,MediaPlayer.rules.SwitchRequest.prototype.WEAK);return i>e-a||l.getAbandonmentStateFor(h)===MediaPlayer.dependencies.AbrController.ABANDON_LOAD?void c(r):(null!==n&&null!==o&&n.level>o.target&&(p=n.level-o.target>MediaPlayer.dependencies.BufferController.RICH_BUFFER_THRESHOLD,p&&f.representationCount>1&&(r=new MediaPlayer.rules.SwitchRequest(q,MediaPlayer.rules.SwitchRequest.prototype.STRONG))),r.value!==MediaPlayer.rules.SwitchRequest.prototype.NO_CHANGE&&r.value!==j&&d.log("BufferOccupancyRule requesting switch to index: ",r.value,"type: ",h," Priority: ",r.priority===MediaPlayer.rules.SwitchRequest.prototype.DEFAULT?"Default":r.priority===MediaPlayer.rules.SwitchRequest.prototype.STRONG?"Strong":"Weak"),void c(r))},reset:function(){a=0}}},MediaPlayer.rules.BufferOccupancyRule.prototype={constructor:MediaPlayer.rules.BufferOccupancyRule},MediaPlayer.rules.InsufficientBufferRule=function(){"use strict";var a={},b=0,c=1e3,d=function(b,c){a[b]=a[b]||{},a[b].state=c,c!==MediaPlayer.dependencies.BufferController.BUFFER_LOADED||a[b].firstBufferLoadedEvent||(a[b].firstBufferLoadedEvent=!0)},e=function(){a={}};return{log:void 0,metricsModel:void 0,playbackController:void 0,setup:function(){this[MediaPlayer.dependencies.PlaybackController.eventList.ENAME_PLAYBACK_SEEKING]=e},execute:function(e,f){var g=this,h=(new Date).getTime(),i=e.getMediaInfo().type,j=e.getCurrentValue(),k=g.metricsModel.getReadOnlyMetricsFor(i),l=k.BufferState.length>0?k.BufferState[k.BufferState.length-1]:null,m=new MediaPlayer.rules.SwitchRequest(MediaPlayer.rules.SwitchRequest.prototype.NO_CHANGE,MediaPlayer.rules.SwitchRequest.prototype.WEAK);return c>h-b||null===l?void f(m):(d(i,l.state),l.state===MediaPlayer.dependencies.BufferController.BUFFER_EMPTY&&void 0!==a[i].firstBufferLoadedEvent&&(m=new MediaPlayer.rules.SwitchRequest(0,MediaPlayer.rules.SwitchRequest.prototype.STRONG)),m.value!==MediaPlayer.rules.SwitchRequest.prototype.NO_CHANGE&&m.value!==j&&g.log("InsufficientBufferRule requesting switch to index: ",m.value,"type: ",i," Priority: ",m.priority===MediaPlayer.rules.SwitchRequest.prototype.DEFAULT?"Default":m.priority===MediaPlayer.rules.SwitchRequest.prototype.STRONG?"Strong":"Weak"),b=h,void f(m))},reset:function(){a={},b=0}}},MediaPlayer.rules.InsufficientBufferRule.prototype={constructor:MediaPlayer.rules.InsufficientBufferRule},MediaPlayer.rules.ThroughputRule=function(){"use strict";var a=[],b=0,c=2,d=3,e=function(b,c){a[b]=a[b]||[],c!==1/0&&c!==a[b][a[b].length-1]&&a[b].push(c)},f=function(b,e){var f=0,g=e?c:d,h=a[b],i=h.length;if(g=g>i?i:g,i>0){for(var j=i-g,k=0,l=j;i>l;l++)k+=h[l];f=k/g}return h.length>g&&h.shift(),f*MediaPlayer.dependencies.AbrController.BANDWIDTH_SAFETY/1e3};return{log:void 0,metricsExt:void 0,metricsModel:void 0,manifestExt:void 0,manifestModel:void 0,execute:function(a,c){var d,g,h,i=this,j=(new Date).getTime()/1e3,k=a.getMediaInfo(),l=k.type,m=a.getCurrentValue(),n=a.getTrackInfo(),o=i.metricsModel.getReadOnlyMetricsFor(l),p=a.getStreamProcessor(),q=p.getABRController(),r=p.isDynamic(),s=i.metricsExt.getCurrentHttpRequest(o),t=isNaN(n.fragmentDuration)?2:n.fragmentDuration/2,u=o.BufferState.length>0?o.BufferState[o.BufferState.length-1]:null,v=o.BufferLevel.length>0?o.BufferLevel[o.BufferLevel.length-1]:null,w=new MediaPlayer.rules.SwitchRequest(MediaPlayer.rules.SwitchRequest.prototype.NO_CHANGE,MediaPlayer.rules.SwitchRequest.prototype.WEAK);if(t>j-b||!o||null===s||s.type!==MediaPlayer.vo.metrics.HTTPRequest.MEDIA_SEGMENT_TYPE||null===u||null===v)return void c(w);if(d=(s.tfinish.getTime()-s.tresponse.getTime())/1e3,s.trace.length&&(h=Math.round(8*s.trace[s.trace.length-1].b/d),e(l,h)),g=Math.round(f(l,r)),q.setAverageThroughput(l,g),q.getAbandonmentStateFor(l)!==MediaPlayer.dependencies.AbrController.ABANDON_LOAD){if(u.state===MediaPlayer.dependencies.BufferController.BUFFER_LOADED&&(v.level>=2*MediaPlayer.dependencies.BufferController.LOW_BUFFER_THRESHOLD||r)){var x=q.getQualityForBitrate(k,g);w=new MediaPlayer.rules.SwitchRequest(x,MediaPlayer.rules.SwitchRequest.prototype.DEFAULT)}w.value!==MediaPlayer.rules.SwitchRequest.prototype.NO_CHANGE&&w.value!==m&&i.log("ThroughputRule requesting switch to index: ",w.value,"type: ",l," Priority: ",w.priority===MediaPlayer.rules.SwitchRequest.prototype.DEFAULT?"Default":w.priority===MediaPlayer.rules.SwitchRequest.prototype.STRONG?"Strong":"Weak","Average throughput",Math.round(g),"kbps")}c(w)},reset:function(){a=[],b=0}}},MediaPlayer.rules.ThroughputRule.prototype={constructor:MediaPlayer.rules.ThroughputRule},MediaPlayer.rules.RulesContext=function(a,b){"use strict";var c=a.getCurrentRepresentationInfo(),d=a;return{getStreamInfo:function(){return c.mediaInfo.streamInfo},getMediaInfo:function(){return c.mediaInfo},getTrackInfo:function(){return c},getCurrentValue:function(){return b},getManifestInfo:function(){return c.mediaInfo.streamInfo.manifestInfo},getStreamProcessor:function(){return d}}},MediaPlayer.rules.RulesContext.prototype={constructor:MediaPlayer.rules.RulesContext},MediaPlayer.rules.RulesController=function(){"use strict";var a={},b=["execute"],c=function(a){return a===this.SCHEDULING_RULE||a===this.ABR_RULE},d=function(a){var c=b.length,d=0;for(d;c>d;d+=1)if(!a.hasOwnProperty(b[d]))return!1;return!0},e=function(a,b){return new MediaPlayer.rules.RulesContext(a,b)},f=function(a){var b=a.execute.bind(a);return a.execute=function(c,d){var e=function(b){d.call(a,new MediaPlayer.rules.SwitchRequest(b.value,b.priority))};b(c,e)},"function"!=typeof a.reset&&(a.reset=function(){}),a},g=function(a,b,c){var e,g,h,i,j,k;for(g in b)if(i=b[g],j=i.length)for(k=0;j>k;k+=1)e=i[k],d.call(this,e)&&(e=f.call(this,e),h=a.getRules(g),c&&(c=!1,h.length=0),this.system.injectInto(e),h.push(e))};return{system:void 0,log:void 0,SCHEDULING_RULE:0,ABR_RULE:1,SYNC_RULE:2,initialize:function(){a[this.ABR_RULE]=this.system.getObject("abrRulesCollection"),a[this.SCHEDULING_RULE]=this.system.getObject("scheduleRulesCollection"),a[this.SYNC_RULE]=this.system.getObject("synchronizationRulesCollection")},setRules:function(b,d){c.call(this,b)&&d&&g.call(this,a[b],d,!0)},addRules:function(b,d){c.call(this,b)&&d&&g.call(this,a[b],d,!1)},applyRules:function(a,b,c,f,g){var h,i,j=a.length,k=j,l={},m=e.call(this,b,f),n=function(a){var b,d;a.value!==MediaPlayer.rules.SwitchRequest.prototype.NO_CHANGE&&(l[a.priority]=g(l[a.priority],a.value)),--j||(l[MediaPlayer.rules.SwitchRequest.prototype.WEAK]!==MediaPlayer.rules.SwitchRequest.prototype.NO_CHANGE&&(d=MediaPlayer.rules.SwitchRequest.prototype.WEAK,b=l[MediaPlayer.rules.SwitchRequest.prototype.WEAK]),l[MediaPlayer.rules.SwitchRequest.prototype.DEFAULT]!==MediaPlayer.rules.SwitchRequest.prototype.NO_CHANGE&&(d=MediaPlayer.rules.SwitchRequest.prototype.DEFAULT,b=l[MediaPlayer.rules.SwitchRequest.prototype.DEFAULT]),l[MediaPlayer.rules.SwitchRequest.prototype.STRONG]!==MediaPlayer.rules.SwitchRequest.prototype.NO_CHANGE&&(d=MediaPlayer.rules.SwitchRequest.prototype.STRONG,b=l[MediaPlayer.rules.SwitchRequest.prototype.STRONG]),d!=MediaPlayer.rules.SwitchRequest.prototype.STRONG&&d!=MediaPlayer.rules.SwitchRequest.prototype.WEAK&&(d=MediaPlayer.rules.SwitchRequest.prototype.DEFAULT),c({value:void 0!==b?b:f,confidence:d}))};for(l[MediaPlayer.rules.SwitchRequest.prototype.STRONG]=MediaPlayer.rules.SwitchRequest.prototype.NO_CHANGE,l[MediaPlayer.rules.SwitchRequest.prototype.WEAK]=MediaPlayer.rules.SwitchRequest.prototype.NO_CHANGE,l[MediaPlayer.rules.SwitchRequest.prototype.DEFAULT]=MediaPlayer.rules.SwitchRequest.prototype.NO_CHANGE,i=0;k>i;i+=1)h=a[i],d.call(this,h)?h.execute(m,n):j--},reset:function(){var b,c,d=a[this.ABR_RULE],e=a[this.SCHEDULING_RULE],f=a[this.SYNC_RULE],g=(d.getRules(MediaPlayer.rules.ABRRulesCollection.prototype.QUALITY_SWITCH_RULES)||[]).concat(e.getRules(MediaPlayer.rules.ScheduleRulesCollection.prototype.NEXT_FRAGMENT_RULES)||[]).concat(e.getRules(MediaPlayer.rules.ScheduleRulesCollection.prototype.FRAGMENTS_TO_SCHEDULE_RULES)||[]).concat(e.getRules(MediaPlayer.rules.ScheduleRulesCollection.prototype.FRAGMENTS_TO_EXECUTE_RULES)||[]).concat(f.getRules(MediaPlayer.rules.SynchronizationRulesCollection.prototype.TIME_SYNCHRONIZED_RULES)||[]).concat(f.getRules(MediaPlayer.rules.SynchronizationRulesCollection.prototype.BEST_GUESS_RULES)||[]),h=g.length;for(c=0;h>c;c+=1)b=g[c],"function"==typeof b.reset&&b.reset();a={}}}},MediaPlayer.rules.RulesController.prototype={constructor:MediaPlayer.rules.RulesController},MediaPlayer.rules.BufferLevelRule=function(){"use strict";var a={},b={},c={},d=function(a){var b=this.metricsExt.getCurrentHttpRequest(a);return null!==b?(b.tresponse.getTime()-b.trequest.getTime())/1e3:0},e=function(a,b,c){var d;return d=c?this.playbackController.getLiveDelay():isNaN(b)||MediaPlayer.dependencies.BufferController.DEFAULT_MIN_BUFFER_TIME<b&&b>a?Math.max(MediaPlayer.dependencies.BufferController.DEFAULT_MIN_BUFFER_TIME,a):a>=b?Math.min(b,MediaPlayer.dependencies.BufferController.DEFAULT_MIN_BUFFER_TIME):Math.min(b,a)},f=function(a,b,c){var f=this,g=c.bufferController.getCriticalBufferLevel(),h=f.metricsModel.getReadOnlyMetricsFor("video"),i=f.metricsModel.getReadOnlyMetricsFor("audio"),j=e.call(this,c.bufferController.getMinBufferTime(),b,a),k=j,l=c.bufferController.bufferMax,m=0;return l===MediaPlayer.dependencies.BufferController.BUFFER_SIZE_MIN?m=j:l===MediaPlayer.dependencies.BufferController.BUFFER_SIZE_INFINITY?m=b:l===MediaPlayer.dependencies.BufferController.BUFFER_SIZE_REQUIRED&&(!a&&f.abrController.isPlayingAtTopQuality(c.streamProcessor.getStreamInfo())&&(k=MediaPlayer.dependencies.BufferController.BUFFER_TIME_AT_TOP_QUALITY),m=k+Math.max(d.call(f,h),d.call(f,i))),m=Math.min(m,g)},g=function(a,c){return b[a]&&b[a][c]},h=function(b,c){return a[b]&&a[b][c]},i=function(a){var c=a.data.fragmentModel.getContext().streamProcessor.getStreamInfo().id;b[c]=b[c]||{},b[c][a.data.request.mediaType]=!0},j=function(b){var c=b.sender.streamProcessor.getStreamInfo().id;a[c]=a[c]||{},a[c][b.sender.streamProcessor.getType()]=!0},k=function(b){var c=b.sender.streamProcessor.getStreamInfo().id;a[c]=a[c]||{},a[c][b.sender.streamProcessor.getType()]=!1};return{metricsExt:void 0,metricsModel:void 0,abrController:void 0,playbackController:void 0,mediaController:void 0,virtualBuffer:void 0,setup:function(){this[MediaPlayer.dependencies.BufferController.eventList.ENAME_BUFFER_LEVEL_OUTRUN]=j,this[MediaPlayer.dependencies.BufferController.eventList.ENAME_BUFFER_LEVEL_BALANCED]=k,this[MediaPlayer.dependencies.FragmentController.eventList.ENAME_STREAM_COMPLETED]=i},setScheduleController:function(a){var b=a.streamProcessor.getStreamInfo().id;c[b]=c[b]||{},c[b][a.streamProcessor.getType()]=a},execute:function(a,b){var d=a.getStreamInfo(),e=d.id,i=a.getMediaInfo(),j=i.type;if(h(e,j))return void b(new MediaPlayer.rules.SwitchRequest(0,MediaPlayer.rules.SwitchRequest.prototype.STRONG));var k,l=this.metricsModel.getReadOnlyMetricsFor(j),m=this.mediaController.getSwitchMode(),n=this.metricsExt.getCurrentBufferLevel(l)?this.metricsExt.getCurrentBufferLevel(l).level:0,o=this.playbackController.getTime(),p=this.virtualBuffer.getChunks({streamId:e,mediaType:j,appended:!0,mediaInfo:i,forRange:{start:o,end:o+n}}),q=p&&p.length>0?p[p.length-1].bufferedRange.end-o:null,r=m===MediaPlayer.dependencies.MediaController.trackSwitchModes.NEVER_REPLACE?n:q||0,s=c[e][j],t=s.streamProcessor.getCurrentRepresentationInfo(),u=s.streamProcessor.isDynamic(),v=this.metricsExt.getCurrentPlaybackRate(l),w=d.manifestInfo.duration,x=r/Math.max(v,1),y=t.fragmentDuration,z=u?Number.POSITIVE_INFINITY:w-o,A=Math.min(f.call(this,u,w,s),z),B=Math.max(A-x,0);k=Math.ceil(B/y),x>=z&&!g(e,j)&&(k=k||1),b(new MediaPlayer.rules.SwitchRequest(k,MediaPlayer.rules.SwitchRequest.prototype.DEFAULT))},reset:function(){a={},b={},c={}}}},MediaPlayer.rules.BufferLevelRule.prototype={constructor:MediaPlayer.rules.BufferLevelRule},MediaPlayer.rules.PendingRequestsRule=function(){"use strict";var a=3,b={};return{metricsExt:void 0,setScheduleController:function(a){var c=a.streamProcessor.getStreamInfo().id;b[c]=b[c]||{},b[c][a.streamProcessor.getType()]=a},execute:function(c,d){var e=c.getMediaInfo().type,f=c.getStreamInfo().id,g=c.getCurrentValue(),h=b[f][e],i=h.getFragmentModel(),j=i.getRequests({state:[MediaPlayer.dependencies.FragmentModel.states.PENDING,MediaPlayer.dependencies.FragmentModel.states.LOADING]}),k=i.getRequests({state:MediaPlayer.dependencies.FragmentModel.states.REJECTED}),l=k.length,m=j.length,n=Math.max(g-m,0);return l>0?void d(new MediaPlayer.rules.SwitchRequest(l,MediaPlayer.rules.SwitchRequest.prototype.DEFAULT)):m>a?void d(new MediaPlayer.rules.SwitchRequest(0,MediaPlayer.rules.SwitchRequest.prototype.DEFAULT)):0===g?void d(new MediaPlayer.rules.SwitchRequest(n,MediaPlayer.rules.SwitchRequest.prototype.NO_CHANGE)):void d(new MediaPlayer.rules.SwitchRequest(n,MediaPlayer.rules.SwitchRequest.prototype.DEFAULT))},reset:function(){b={}}}},MediaPlayer.rules.PendingRequestsRule.prototype={constructor:MediaPlayer.rules.PendingRequestsRule},MediaPlayer.rules.PlaybackTimeRule=function(){"use strict";var a={},b={},c=function(b){setTimeout(function(){var c=b.data.seekTime;a.audio=c,a.video=c,a.fragmentedText=c},0)};return{adapter:void 0,sourceBufferExt:void 0,virtualBuffer:void 0,playbackController:void 0,textSourceBuffer:void 0,setup:function(){this[MediaPlayer.dependencies.PlaybackController.eventList.ENAME_PLAYBACK_SEEKING]=c},setScheduleController:function(a){var c=a.streamProcessor.getStreamInfo().id;b[c]=b[c]||{},b[c][a.streamProcessor.getType()]=a},execute:function(c,d){var e,f,g,h=c.getMediaInfo(),i=h.type,j=c.getStreamInfo().id,k=b[j][i],l=.1,m=b[j][i].streamProcessor,n=m.getCurrentRepresentationInfo(),o=a?a[i]:null,p=void 0!==o&&null!==o,q=p?MediaPlayer.rules.SwitchRequest.prototype.STRONG:MediaPlayer.rules.SwitchRequest.prototype.DEFAULT,r=k.getFragmentModel().getRequests({state:MediaPlayer.dependencies.FragmentModel.states.REJECTED})[0],s=!!r&&!p,t=m.getIndexHandlerTime(),u=this.playbackController.getTime(),v=r?r.startTime+r.duration:null,w=!p&&r&&(v>u&&r.startTime<=t||isNaN(t)),x=m.bufferController.getBuffer(),y=null;if(f=p?o:w?r.startTime:t,!p&&!r&&f>u+MediaPlayer.dependencies.BufferController.BUFFER_TIME_AT_TOP_QUALITY)return void d(new MediaPlayer.rules.SwitchRequest(null,q));if(r&&k.getFragmentModel().removeRejectedRequest(r),isNaN(f)||"fragmentedText"===i&&this.textSourceBuffer.getAllTracksAreDisabled())return void d(new MediaPlayer.rules.SwitchRequest(null,q));for(p&&(a[i]=null),x&&(y=this.sourceBufferExt.getBufferRange(m.bufferController.getBuffer(),f),null!==y&&(e=this.virtualBuffer.getChunks({streamId:j,mediaType:i,appended:!0,mediaInfo:h,forRange:y}),e&&e.length>0&&(f=e[e.length-1].bufferedRange.end))),g=this.adapter.getFragmentRequestForTime(m,n,f,{keepIdx:s}),w&&g&&g.index!==r.index&&(g=this.adapter.getFragmentRequestForTime(m,n,r.startTime+r.duration/2+l,{keepIdx:s,timeThreshold:0}));g&&m.getFragmentModel().isFragmentLoadedOrPending(g);){if("complete"===g.action){g=null,m.setIndexHandlerTime(NaN);break}g=this.adapter.getNextFragmentRequest(m,n)}g&&!w&&m.setIndexHandlerTime(g.startTime+g.duration),d(new MediaPlayer.rules.SwitchRequest(g,q))},reset:function(){a={},b={}}}},MediaPlayer.rules.PlaybackTimeRule.prototype={constructor:MediaPlayer.rules.PlaybackTimeRule},MediaPlayer.rules.SameTimeRequestRule=function(){"use strict";var a={},b=function(a,b){var c,e,f,g,h,i=0,j=a.length;for(i;j>i;i+=1)for(f=a[i].getRequests({state:MediaPlayer.dependencies.FragmentModel.states.PENDING}),d.call(this,f,"index"),g=0,h=f.length;h>g;g++){if(c=f[g],isNaN(c.startTime)&&"complete"!==c.action){e=c;break}c.startTime>b&&(!e||c.startTime<e.startTime)&&(e=c)}return e||c},c=function(a,b){var c,d,e=a.length,f=null;for(d=0;e>d;d+=1)c=a[d].getRequests({state:MediaPlayer.dependencies.FragmentModel.states.PENDING,time:b})[0],c&&(!f||c.startTime>f.startTime)&&(f=c);return f},d=function(a,b){var c=function(a,c){return a[b]<c[b]||isNaN(a[b])&&"complete"!==a.action?-1:a[b]>c[b]?1:0};a.sort(c)},e=function(b,c){return a[b]&&a[b][c]?a[b][c]:NaN},f=function(b){var c=b.data.fragmentModel,d=b.data.request,e=c.getContext().streamProcessor.getStreamInfo().id,f=d.mediaType;a[e]=a[e]||{},a[e][f]=d.index-1};return{playbackController:void 0,setup:function(){this[MediaPlayer.dependencies.FragmentController.eventList.ENAME_STREAM_COMPLETED]=f},setFragmentModels:function(a,b){this.fragmentModels=this.fragmentModels||{},this.fragmentModels[b]=a},execute:function(a,d){var f,g,h,i,j,k,l,m,n,o=a.getStreamInfo().id,p=a.getCurrentValue(),q=MediaPlayer.rules.SwitchRequest.prototype.DEFAULT,r=this.fragmentModels[o],s=new Date,t=null,u=r?r.length:null,v=!1,w=[];if(!r||!u)return void d(new MediaPlayer.rules.SwitchRequest([],q));if(k=this.playbackController.getTime(),l=c(r,k),j=l||b(r,k)||p,!j)return void d(new MediaPlayer.rules.SwitchRequest([],q));for(i=0;u>i;i+=1)if(g=r[i],f=g.getContext().streamProcessor.getType(),("video"===f||"audio"===f||"fragmentedText"===f)&&(m=g.getRequests({state:MediaPlayer.dependencies.FragmentModel.states.PENDING}),n=g.getRequests({state:MediaPlayer.dependencies.FragmentModel.states.LOADING}).length,!g.getIsPostponed()||isNaN(j.startTime))){if(n>MediaPlayer.dependencies.ScheduleController.LOADING_REQUEST_THRESHOLD)return void d(new MediaPlayer.rules.SwitchRequest([],q));if(t=t||(j===l?k:j.startTime),-1===m.indexOf(j)){if(h=g.getRequests({state:MediaPlayer.dependencies.FragmentModel.states.PENDING,time:t})[0],h||0!==j.index||(h=m.filter(function(a){return a.index===j.index})[0]),h)w.push(h);else if(h=g.getRequests({state:MediaPlayer.dependencies.FragmentModel.states.LOADING,time:t})[0]||g.getRequests({state:MediaPlayer.dependencies.FragmentModel.states.EXECUTED,time:t})[0],!h&&j.index!==e.call(this,o,j.mediaType)&&"fragmentedText"!==f){v=!0;break}}else w.push(j)}return w=w.filter(function(a){return"complete"===a.action||s.getTime()>=a.availabilityStartTime.getTime()}),v?void d(new MediaPlayer.rules.SwitchRequest([],q)):void d(new MediaPlayer.rules.SwitchRequest(w,q))},reset:function(){a={}}}},MediaPlayer.rules.SameTimeRequestRule.prototype={constructor:MediaPlayer.rules.SameTimeRequestRule},MediaPlayer.rules.ScheduleRulesCollection=function(){"use strict";var a=[],b=[],c=[];return{bufferLevelRule:void 0,pendingRequestsRule:void 0,playbackTimeRule:void 0,sameTimeRequestRule:void 0,getRules:function(d){switch(d){case MediaPlayer.rules.ScheduleRulesCollection.prototype.FRAGMENTS_TO_SCHEDULE_RULES:return a;case MediaPlayer.rules.ScheduleRulesCollection.prototype.NEXT_FRAGMENT_RULES:return c;case MediaPlayer.rules.ScheduleRulesCollection.prototype.FRAGMENTS_TO_EXECUTE_RULES:return b;default:return null}},setup:function(){a.push(this.bufferLevelRule),a.push(this.pendingRequestsRule),c.push(this.playbackTimeRule),b.push(this.sameTimeRequestRule)}}},MediaPlayer.rules.ScheduleRulesCollection.prototype={constructor:MediaPlayer.rules.ScheduleRulesCollection,FRAGMENTS_TO_SCHEDULE_RULES:"fragmentsToScheduleRules",NEXT_FRAGMENT_RULES:"nextFragmentRules",FRAGMENTS_TO_EXECUTE_RULES:"fragmentsToExecuteRules"},MediaPlayer.rules.SwitchRequest=function(a,b){"use strict";this.value=a,this.priority=b,void 0===this.value&&(this.value=999),void 0===this.priority&&(this.priority=.5)},MediaPlayer.rules.SwitchRequest.prototype={constructor:MediaPlayer.rules.SwitchRequest,NO_CHANGE:999,DEFAULT:.5,STRONG:1,WEAK:0},MediaPlayer.rules.LiveEdgeBinarySearchRule=function(){"use strict";var a,b,c,d=43200,e=NaN,f=null,g=NaN,h=null,i=!1,j=NaN,k=MediaPlayer.rules.SwitchRequest.prototype.DEFAULT,l=function(a,d,e,f){var g,i=this;if(null===f)g=i.adapter.generateFragmentRequestForTime(c,h,a),l.call(i,a,d,e,g);else{var j=function(c){b.unsubscribe(MediaPlayer.dependencies.FragmentLoader.eventList.ENAME_CHECK_FOR_EXISTENCE_COMPLETED,i,j),c.data.exists?d.call(i,c.data.request,a):e.call(i,c.data.request,a)};b.subscribe(MediaPlayer.dependencies.FragmentLoader.eventList.ENAME_CHECK_FOR_EXISTENCE_COMPLETED,i,j),b.checkForExistence(f)}},m=function(b,d){var j,p,q;return i?void o.call(this,!1,d):(q=d-e,j=q>0?e-q:e+Math.abs(q)+g,void(j<f.start&&j>f.end?a(new MediaPlayer.rules.SwitchRequest(null,k)):(p=this.adapter.getFragmentRequestForTime(c,h,j,{ignoreIsFinished:!0}),l.call(this,j,n,m,p))))},n=function(b,d){var m,n,p=b.startTime,q=this;if(!i){if(!h.fragmentDuration)return void a(new MediaPlayer.rules.SwitchRequest(p,k));if(i=!0,f.end=p+2*g,d===e)return n=d+j,m=q.adapter.getFragmentRequestForTime(c,h,n,{ignoreIsFinished:!0}),void l.call(q,n,function(){o.call(q,!0,n)},function(){a(new MediaPlayer.rules.SwitchRequest(n,k))},m)}o.call(this,!0,d)},o=function(b,d){var e,g,i;b?f.start=d:f.end=d,e=Math.floor(f.end-f.start)<=j,e?a(new MediaPlayer.rules.SwitchRequest(b?d:d-j,k)):(i=(f.start+f.end)/2,g=this.adapter.getFragmentRequestForTime(c,h,i,{ignoreIsFinished:!0}),l.call(this,i,n,m,g))};return{metricsExt:void 0,adapter:void 0,timelineConverter:void 0,execute:function(i,o){var p,q,r=this;if(a=o,c=i.getStreamProcessor(),b=c.getFragmentLoader(),h=i.getTrackInfo(),j=h.fragmentDuration,q=h.DVRWindow,e=q.end,h.useCalculatedLiveEdgeTime){var s=r.timelineConverter.getExpectedLiveEdge();return r.timelineConverter.setExpectedLiveEdge(e),void a(new MediaPlayer.rules.SwitchRequest(s,k))}f={start:Math.max(0,e-d),end:e+d},g=Math.floor((q.end-q.start)/2),p=r.adapter.getFragmentRequestForTime(c,h,e,{ignoreIsFinished:!0}),l.call(r,e,n,m,p)},reset:function(){e=NaN,f=null,g=NaN,h=null,i=!1,j=NaN,c=null,b=null}}},MediaPlayer.rules.LiveEdgeBinarySearchRule.prototype={constructor:MediaPlayer.rules.LiveEdgeBinarySearchRule},MediaPlayer.rules.LiveEdgeWithTimeSynchronizationRule=function(){"use strict";return{timelineConverter:void 0,execute:function(a,b){var c=a.getTrackInfo(),d=c.DVRWindow.end,e=MediaPlayer.rules.SwitchRequest.prototype.DEFAULT;if(c.useCalculatedLiveEdgeTime){var f=this.timelineConverter.getExpectedLiveEdge();this.timelineConverter.setExpectedLiveEdge(d),b(new MediaPlayer.rules.SwitchRequest(f,e))}else b(new MediaPlayer.rules.SwitchRequest(d,e))}}},MediaPlayer.rules.LiveEdgeWithTimeSynchronizationRule.prototype={constructor:MediaPlayer.rules.LiveEdgeWithTimeSynchronizationRule},MediaPlayer.rules.SynchronizationRulesCollection=function(){"use strict";var a=[],b=[];return{liveEdgeBinarySearchRule:void 0,liveEdgeWithTimeSynchronizationRule:void 0,getRules:function(c){switch(c){case MediaPlayer.rules.SynchronizationRulesCollection.prototype.TIME_SYNCHRONIZED_RULES:return a;case MediaPlayer.rules.SynchronizationRulesCollection.prototype.BEST_GUESS_RULES:return b;default:return null}},setup:function(){a.push(this.liveEdgeWithTimeSynchronizationRule),b.push(this.liveEdgeBinarySearchRule)}}},MediaPlayer.rules.SynchronizationRulesCollection.prototype={constructor:MediaPlayer.rules.SynchronizationRulesCollection,TIME_SYNCHRONIZED_RULES:"withAccurateTimeSourceRules",BEST_GUESS_RULES:"bestGuestRules"},MediaPlayer.utils.BoxParser=function(){"use strict";var a=function(a){if(!a)return null;void 0===a.fileStart&&(a.fileStart=0);var b=ISOBoxer.parseBuffer(a),c=this.system.getObject("isoFile");return c.setData(b),c};return{system:void 0,log:void 0,parse:a}},MediaPlayer.utils.BoxParser.prototype={constructor:MediaPlayer.utils.BoxParser},MediaPlayer.utils.Capabilities=function(){"use strict"},MediaPlayer.utils.Capabilities.prototype={constructor:MediaPlayer.utils.Capabilities,system:void 0,log:void 0,supportsMediaSource:function(){"use strict";var a="WebKitMediaSource"in window,b="MediaSource"in window;return a||b},supportsEncryptedMedia:function(){return this.system.hasMapping("protectionModel")},supportsCodec:function(a,b){"use strict";if(!(a instanceof HTMLMediaElement))throw"element must be of type HTMLMediaElement.";var c=a.canPlayType(b);return"probably"===c||"maybe"===c}},MediaPlayer.utils.CustomTimeRanges=function(){return{customTimeRangeArray:[],length:0,add:function(a,b){var c=0;for(c=0;c<this.customTimeRangeArray.length&&a>this.customTimeRangeArray[c].start;c++);for(this.customTimeRangeArray.splice(c,0,{start:a,end:b}),c=0;c<this.customTimeRangeArray.length-1;c++)this.mergeRanges(c,c+1)&&c--;this.length=this.customTimeRangeArray.length},clear:function(){this.customTimeRangeArray=[],this.length=0},remove:function(a,b){for(var c=0;c<this.customTimeRangeArray.length;c++)if(a<=this.customTimeRangeArray[c].start&&b>=this.customTimeRangeArray[c].end)this.customTimeRangeArray.splice(c,1),c--;else{if(a>this.customTimeRangeArray[c].start&&b<this.customTimeRangeArray[c].end){this.customTimeRangeArray.splice(c+1,0,{start:b,end:this.customTimeRangeArray[c].end}),this.customTimeRangeArray[c].end=a;break}a>this.customTimeRangeArray[c].start&&a<this.customTimeRangeArray[c].end?this.customTimeRangeArray[c].end=a:b>this.customTimeRangeArray[c].start&&b<this.customTimeRangeArray[c].end&&(this.customTimeRangeArray[c].start=b)}this.length=this.customTimeRangeArray.length},mergeRanges:function(a,b){var c=this.customTimeRangeArray[a],d=this.customTimeRangeArray[b];return c.start<=d.start&&d.start<=c.end&&c.end<=d.end?(c.end=d.end,this.customTimeRangeArray.splice(b,1),!0):d.start<=c.start&&c.start<=d.end&&d.end<=c.end?(c.start=d.start,this.customTimeRangeArray.splice(b,1),!0):d.start<=c.start&&c.start<=d.end&&c.end<=d.end?(this.customTimeRangeArray.splice(a,1),!0):c.start<=d.start&&d.start<=c.end&&d.end<=c.end?(this.customTimeRangeArray.splice(b,1),!0):!1},start:function(a){return this.customTimeRangeArray[a].start},end:function(a){return this.customTimeRangeArray[a].end}}},MediaPlayer.utils.CustomTimeRanges.prototype={constructor:MediaPlayer.utils.CustomTimeRanges},MediaPlayer.utils.DOMStorage=function(){var a,b=!0,c=!0,d=function(a,b){void 0===b||isNaN(b)||"number"!=typeof b||(MediaPlayer.utils.DOMStorage[a]=b)},e=function(a){if(!this.isSupported(MediaPlayer.utils.DOMStorage.STORAGE_TYPE_LOCAL)||!c)return null;var b=MediaPlayer.utils.DOMStorage["LOCAL_STORAGE_"+a.toUpperCase()+"_SETTINGS_KEY"],d=JSON.parse(localStorage.getItem(b))||{},e=(new Date).getTime()-parseInt(d.timestamp)>=MediaPlayer.utils.DOMStorage.LOCAL_STORAGE_MEDIA_SETTINGS_EXPIRATION||!1,f=d.settings;return e&&(localStorage.removeItem(b),f=null),f},f=function(){["video","audio"].forEach(function(a){if(void 0===this.abrController.getInitialBitrateFor(a)){if(this.isSupported(MediaPlayer.utils.DOMStorage.STORAGE_TYPE_LOCAL)&&b){var c=MediaPlayer.utils.DOMStorage["LOCAL_STORAGE_"+a.toUpperCase()+"_BITRATE_KEY"],d=JSON.parse(localStorage.getItem(c))||{},e=(new Date).getTime()-parseInt(d.timestamp)>=MediaPlayer.utils.DOMStorage.LOCAL_STORAGE_BITRATE_EXPIRATION||!1,f=parseInt(d.bitrate);isNaN(f)||e?e&&localStorage.removeItem(c):(this.abrController.setInitialBitrateFor(a,f),this.log("Last bitrate played for "+a+" was "+f))}void 0===this.abrController.getInitialBitrateFor(a)&&this.abrController.setInitialBitrateFor(a,MediaPlayer.dependencies.AbrController["DEFAULT_"+a.toUpperCase()+"_BITRATE"])}},this)};return{system:void 0,log:void 0,abrController:void 0,checkInitialBitrate:f,getSavedMediaSettings:e,enableLastBitrateCaching:function(a,c){b=a,d.call(this,"LOCAL_STORAGE_BITRATE_EXPIRATION",c)},enableLastMediaSettingsCaching:function(a,b){c=a,d.call(this,"LOCAL_STORAGE_MEDIA_SETTINGS_EXPIRATION",b)},isSupported:function(b){if(void 0!==a)return a;a=!1;var c,d="1",e="1";try{c=window[b]}catch(f){return this.log("Warning: DOMStorage access denied: "+f.message),a}if(!c||b!==MediaPlayer.utils.DOMStorage.STORAGE_TYPE_LOCAL&&b!==MediaPlayer.utils.DOMStorage.STORAGE_TYPE_SESSION)return a;try{c.setItem(d,e),c.removeItem(d),a=!0}catch(f){this.log("Warning: DOMStorage is supported, but cannot be used: "+f.message)}return a}}},MediaPlayer.utils.DOMStorage.LOCAL_STORAGE_VIDEO_BITRATE_KEY="dashjs_vbitrate",MediaPlayer.utils.DOMStorage.LOCAL_STORAGE_AUDIO_BITRATE_KEY="dashjs_abitrate",MediaPlayer.utils.DOMStorage.LOCAL_STORAGE_AUDIO_SETTINGS_KEY="dashjs_asettings",MediaPlayer.utils.DOMStorage.LOCAL_STORAGE_VIDEO_SETTINGS_KEY="dashjs_vsettings",MediaPlayer.utils.DOMStorage.LOCAL_STORAGE_BITRATE_EXPIRATION=36e4,MediaPlayer.utils.DOMStorage.LOCAL_STORAGE_MEDIA_SETTINGS_EXPIRATION=36e4,MediaPlayer.utils.DOMStorage.STORAGE_TYPE_LOCAL="localStorage",MediaPlayer.utils.DOMStorage.STORAGE_TYPE_SESSION="sessionStorage",MediaPlayer.utils.DOMStorage.prototype={constructor:MediaPlayer.utils.DOMStorage},MediaPlayer.utils.Debug=function(){"use strict";var a,b=!0,c=!1,d=!1,e=(new Date).getTime();return{system:void 0,eventBus:void 0,setup:function(){this.system.mapValue("log",this.log),this.system.mapOutlet("log"),a=this.eventBus},setLogTimestampVisible:function(a){c=a},showCalleeName:function(a){d=a},setLogToBrowserConsole:function(a){b=a},getLogToBrowserConsole:function(){return b},log:function(){var f="",g=null;c&&(g=(new Date).getTime(),f+="["+(g-e)+"]"),d&&this.getName&&(f+="["+this.getName()+"]"),this.getMediaType&&this.getMediaType()&&(f+="["+this.getMediaType()+"]"),f.length>0&&(f+=" "),Array.apply(null,arguments).forEach(function(a){f+=a+" "}),b&&console.log(f),a.dispatchEvent({type:"log",message:f})}}},MediaPlayer.utils.EventBus=function(){"use strict";var a,b=function(b,c){var d=(c?"1":"0")+b;return d in a||(a[d]=[]),a[d]},c=function(){a={}};return c(),{addEventListener:function(a,c,d){var e=b(a,d),f=e.indexOf(c);-1===f&&e.push(c)},removeEventListener:function(a,c,d){var e=b(a,d),f=e.indexOf(c);-1!==f&&e.splice(f,1)},dispatchEvent:function(a){for(var c=b(a.type,!1).slice(),d=0;d<c.length;d++)c[d].call(this,a);return!a.defaultPrevented}}},MediaPlayer.utils.IsoFile=function(){"use strict";var a,b={offset:"_offset",size:"size",type:"type"},c={references:"references",timescale:"timescale",earliest_presentation_time:"earliest_presentation_time",first_offset:"first_offset"},d={reference_type:"reference_type",referenced_size:"referenced_size",subsegment_duration:"subsegment_duration"},e={id:"id",value:"value",timescale:"timescale",scheme_id_uri:"scheme_id_uri",presentation_time_delta:"presentation_time_delta",event_duration:"event_duration",message_data:"message_data"},f={timescale:"timescale"},g={base_data_offset:"base_data_offset",sample_description_index:"sample_description_index",default_sample_duration:"default_sample_duration",default_sample_size:"default_sample_size",
 default_sample_flags:"default_sample_flags",flags:"flags"},h={version:"version",baseMediaDecodeTime:"baseMediaDecodeTime",flags:"flags"},i={sample_count:"sample_count",first_sample_flags:"first_sample_flags",data_offset:"data_offset",flags:"flags",samples:"samples"},j={sample_size:"sample_size",sample_duration:"sample_duration",sample_composition_time_offset:"sample_composition_time_offset"},k=function(a,b,c){for(var d in c)b[d]=a[c[d]]},l=function(a){if(!a)return null;var l,m,n=new MediaPlayer.vo.IsoBox;switch(k(a,n,b),a.hasOwnProperty("_incomplete")&&(n.isComplete=!a._incomplete),n.type){case"sidx":if(k(a,n,c),n.references)for(l=0,m=n.references.length;m>l;l+=1)k(a.references[l],n.references[l],d);break;case"emsg":k(a,n,e);break;case"mdhd":k(a,n,f);break;case"tfhd":k(a,n,g);break;case"tfdt":k(a,n,h);break;case"trun":if(k(a,n,i),n.samples)for(l=0,m=n.samples.length;m>l;l+=1)k(a.samples[l],n.samples[l],j)}return n},m=function(b){return b&&a&&a.boxes&&0!==a.boxes.length?l.call(this,a.fetch(b)):null},n=function(b){for(var c,d=a.fetchAll(b),e=[],f=0,g=d.length;g>f;f+=1)c=l.call(this,d[f]),c&&e.push(c);return e};return{getBox:m,getBoxes:n,setData:function(b){a=b},getLastBox:function(){if(!a||!a.boxes||!a.boxes.length)return null;var b=a.boxes[a.boxes.length-1].type,c=n.call(this,b);return c[c.length-1]},getOffset:function(){return a._cursor.offset}}},MediaPlayer.utils.IsoFile.prototype={constructor:MediaPlayer.utils.IsoFile},MediaPlayer.utils.VirtualBuffer=function(){var a={},b=function(a,b){var c=function(a,c){return a[b]<c[b]?-1:a[b]>c[b]?1:0};a.sort(c)},c=function(b){var c=b.streamId,d=b.mediaType;return a[c]?a[c][d]:null},d=function(a,b,c){var d,e,f,g,h=[],i=b.start,j=b.end;return a.forEach(function(a){d=a.bufferedRange.start,e=a.bufferedRange.end,f=d>=i&&j>d,g=e>i&&j>=e,(f||g)&&(h.push(a),c&&(a.bufferedRange.start=f?d:i,a.bufferedRange.end=g?e:j))}),h},e=function(){var a={};return a.audio={calculatedBufferedRanges:new MediaPlayer.utils.CustomTimeRanges,actualBufferedRanges:new MediaPlayer.utils.CustomTimeRanges,appended:[]},a.audio[MediaPlayer.vo.metrics.HTTPRequest.MEDIA_SEGMENT_TYPE]=[],a.audio[MediaPlayer.vo.metrics.HTTPRequest.INIT_SEGMENT_TYPE]=[],a.video={calculatedBufferedRanges:new MediaPlayer.utils.CustomTimeRanges,actualBufferedRanges:new MediaPlayer.utils.CustomTimeRanges,appended:[]},a.video[MediaPlayer.vo.metrics.HTTPRequest.MEDIA_SEGMENT_TYPE]=[],a.video[MediaPlayer.vo.metrics.HTTPRequest.INIT_SEGMENT_TYPE]=[],a.fragmentedText={calculatedBufferedRanges:new MediaPlayer.utils.CustomTimeRanges,actualBufferedRanges:new MediaPlayer.utils.CustomTimeRanges,appended:[]},a.fragmentedText[MediaPlayer.vo.metrics.HTTPRequest.MEDIA_SEGMENT_TYPE]=[],a.fragmentedText[MediaPlayer.vo.metrics.HTTPRequest.INIT_SEGMENT_TYPE]=[],a};return{system:void 0,sourceBufferExt:void 0,notify:void 0,subscribe:void 0,unsubscribe:void 0,append:function(c){var d=c.streamId,f=c.mediaInfo.type,g=c.segmentType,h=c.start,i=c.end;a[d]=a[d]||e(),a[d][f][g].push(c),b(a[d][f][g],"index"),isNaN(h)||isNaN(i)||(a[d][f].calculatedBufferedRanges.add(h,i),this.notify(MediaPlayer.utils.VirtualBuffer.eventList.CHUNK_APPENDED,{chunk:c}))},storeAppendedChunk:function(c,d){if(c&&d){var e,f,g=c.streamId,h=c.mediaInfo.type,i=a[g][h].actualBufferedRanges,j=this.getChunks({streamId:g,mediaType:h,appended:!0,start:c.start})[0];if(j?(f=a[g][h].appended.indexOf(j),a[g][h].appended[f]=c):a[g][h].appended.push(c),b(a[g][h].appended,"start"),e=this.sourceBufferExt.getRangeDifference(i,d),!e)return void(j&&(c.bufferedRange=j.bufferedRange));c.bufferedRange=e,i.add(e.start,e.end),j&&(c.bufferedRange.start=Math.min(j.bufferedRange.start,e.start),c.bufferedRange.end=Math.max(j.bufferedRange.end,e.end))}},updateBufferedRanges:function(b,c){if(b){var e,f,g=b.streamId,h=b.mediaType,i=this.getChunks({streamId:g,mediaType:h,appended:!0}),j=[];if(a[g][h].actualBufferedRanges=new MediaPlayer.utils.CustomTimeRanges,!c||0===c.length)return void(a[g][h].appended=[]);for(var k=0,l=c.length;l>k;k+=1)e=c.start(k),f=c.end(k),a[g][h].actualBufferedRanges.add(e,f),j=j.concat(d.call(this,i,{start:e,end:f},!0));a[g][h].appended=j}},getChunks:function(a){var b,e=c.call(this,a),f=a.segmentType,g=a.appended,h=a.removeOrigin,i=a.limit||Number.POSITIVE_INFINITY,j=this.system.getObject("mediaController"),k=0,l=[];return e?(delete a.streamId,delete a.mediaType,delete a.segmentType,delete a.removeOrigin,delete a.limit,delete a.appended,b=g?e.appended:f?e[f]:[],l=b.filter(function(b,c,d){if(k>=i)return!1;for(var f in a){if("mediaInfo"===f)return j.isTracksEqual(b[f],a[f]);if(a.hasOwnProperty(f)&&b[f]!=a[f])return!1}return h&&(e.calculatedBufferedRanges.remove(b.start,b.end),d.splice(c,1)),k+=1,!0}),a.forRange&&(l=d.call(this,l,a.forRange,!1)),l):l},extract:function(a){return a.removeOrigin=!0,this.getChunks(a)},getTotalBufferLevel:function(b){var c=b.type,d=0;for(var e in a)a.hasOwnProperty(e)&&(d+=this.sourceBufferExt.getTotalBufferedTime({buffered:a[e][c].calculatedBufferedRanges}));return d},reset:function(){a={}}}},MediaPlayer.utils.VirtualBuffer.prototype={constructor:MediaPlayer.utils.VirtualBuffer},MediaPlayer.utils.VirtualBuffer.eventList={CHUNK_APPENDED:"chunkAppended"},MediaPlayer.vo.BitrateInfo=function(){"use strict";this.mediaType=null,this.bitrate=null,this.qualityIndex=NaN},MediaPlayer.vo.BitrateInfo.prototype={constructor:MediaPlayer.vo.BitrateInfo},MediaPlayer.vo.DataChunk=function(){"use strict";this.streamId=null,this.mediaInfo=null,this.segmentType=null,this.quality=NaN,this.index=NaN,this.bytes=null,this.start=NaN,this.end=NaN,this.duration=NaN},MediaPlayer.vo.DataChunk.prototype={constructor:MediaPlayer.vo.DataChunk},MediaPlayer.vo.Error=function(a,b,c){"use strict";this.code=a||null,this.message=b||null,this.data=c||null},MediaPlayer.vo.Error.prototype={constructor:MediaPlayer.vo.Error},MediaPlayer.vo.Event=function(){"use strict";this.type=null,this.sender=null,this.data=null,this.error=null,this.timestamp=NaN},MediaPlayer.vo.Event.prototype={constructor:MediaPlayer.vo.Event},MediaPlayer.vo.FragmentRequest=function(){"use strict";this.action="download",this.startTime=NaN,this.mediaType=null,this.mediaInfo=null,this.type=null,this.duration=NaN,this.timescale=NaN,this.range=null,this.url=null,this.requestStartDate=null,this.firstByteDate=null,this.requestEndDate=null,this.quality=NaN,this.index=NaN,this.availabilityStartTime=null,this.availabilityEndTime=null,this.wallStartTime=null,this.bytesLoaded=NaN,this.bytesTotal=NaN},MediaPlayer.vo.FragmentRequest.prototype={constructor:MediaPlayer.vo.FragmentRequest,ACTION_DOWNLOAD:"download",ACTION_COMPLETE:"complete"},MediaPlayer.vo.IsoBox=function(){"use strict";this.offset=NaN,this.type=null,this.size=NaN,this.isComplete=!0},MediaPlayer.vo.IsoBox.prototype={constructor:MediaPlayer.vo.IsoBox},MediaPlayer.vo.ManifestInfo=function(){"use strict";this.DVRWindowSize=NaN,this.loadedTime=null,this.availableFrom=null,this.minBufferTime=NaN,this.duration=NaN,this.isDynamic=!1,this.maxFragmentDuration=null},MediaPlayer.vo.ManifestInfo.prototype={constructor:MediaPlayer.vo.ManifestInfo},MediaPlayer.vo.MediaInfo=function(){"use strict";this.id=null,this.index=null,this.type=null,this.streamInfo=null,this.representationCount=0,this.lang=null,this.viewpoint=null,this.accessibility=null,this.audioChannelConfiguration=null,this.roles=null,this.codec=null,this.mimeType=null,this.contentProtection=null,this.isText=!1,this.KID=null,this.bitrateList=null},MediaPlayer.vo.MediaInfo.prototype={constructor:MediaPlayer.vo.MediaInfo},MediaPlayer.models.MetricsList=function(){"use strict";return{TcpList:[],HttpList:[],RepSwitchList:[],BufferLevel:[],BufferState:[],PlayList:[],DroppedFrames:[],SchedulingInfo:[],DVRInfo:[],ManifestUpdate:[],RequestsQueue:null}},MediaPlayer.models.MetricsList.prototype={constructor:MediaPlayer.models.MetricsList},MediaPlayer.vo.StreamInfo=function(){"use strict";this.id=null,this.index=null,this.start=NaN,this.duration=NaN,this.manifestInfo=null,this.isLast=!0},MediaPlayer.vo.StreamInfo.prototype={constructor:MediaPlayer.vo.StreamInfo},MediaPlayer.vo.TextTrackInfo=function(){"use strict";this.video=null,this.captionData=null,this.label=null,this.lang=null,this.defaultTrack=!1,this.kind=null,this.isFragmented=!1},MediaPlayer.vo.TextTrackInfo.prototype={constructor:MediaPlayer.vo.TextTrackInfo},MediaPlayer.vo.TrackInfo=function(){"use strict";this.id=null,this.quality=null,this.DVRWindow=null,this.fragmentDuration=null,this.mediaInfo=null,this.MSETimeOffset=null},MediaPlayer.vo.TrackInfo.prototype={constructor:MediaPlayer.vo.TrackInfo},MediaPlayer.vo.URIFragmentData=function(){"use strict";this.t=null,this.xywh=null,this.track=null,this.id=null,this.s=null},MediaPlayer.vo.URIFragmentData.prototype={constructor:MediaPlayer.vo.URIFragmentData},MediaPlayer.vo.metrics.BufferLevel=function(){"use strict";this.t=null,this.level=null},MediaPlayer.vo.metrics.BufferLevel.prototype={constructor:MediaPlayer.vo.metrics.BufferLevel},MediaPlayer.vo.metrics.BufferState=function(){"use strict";this.target=null,this.state=MediaPlayer.dependencies.BufferController.BUFFER_EMPTY},MediaPlayer.vo.metrics.BufferState.prototype={constructor:MediaPlayer.vo.metrics.BufferState},MediaPlayer.vo.metrics.DVRInfo=function(){"use strict";this.time=null,this.range=null,this.manifestInfo=null},MediaPlayer.vo.metrics.DVRInfo.prototype={constructor:MediaPlayer.vo.metrics.DVRInfo},MediaPlayer.vo.metrics.DroppedFrames=function(){"use strict";this.time=null,this.droppedFrames=null},MediaPlayer.vo.metrics.DroppedFrames.prototype={constructor:MediaPlayer.vo.metrics.DroppedFrames},MediaPlayer.vo.metrics.HTTPRequest=function(){"use strict";this.stream=null,this.tcpid=null,this.type=null,this.url=null,this.actualurl=null,this.range=null,this.trequest=null,this.tresponse=null,this.tfinish=null,this.responsecode=null,this.interval=null,this.mediaduration=null,this.responseHeaders=null,this.trace=[]},MediaPlayer.vo.metrics.HTTPRequest.prototype={constructor:MediaPlayer.vo.metrics.HTTPRequest},MediaPlayer.vo.metrics.HTTPRequest.Trace=function(){"use strict";this.s=null,this.d=null,this.b=[]},MediaPlayer.vo.metrics.HTTPRequest.Trace.prototype={constructor:MediaPlayer.vo.metrics.HTTPRequest.Trace},MediaPlayer.vo.metrics.HTTPRequest.MPD_TYPE="MPD",MediaPlayer.vo.metrics.HTTPRequest.XLINK_EXPANSION_TYPE="XLink Expansion",MediaPlayer.vo.metrics.HTTPRequest.INIT_SEGMENT_TYPE="Initialization Segment",MediaPlayer.vo.metrics.HTTPRequest.INDEX_SEGMENT_TYPE="Index Segment",MediaPlayer.vo.metrics.HTTPRequest.MEDIA_SEGMENT_TYPE="Media Segment",MediaPlayer.vo.metrics.HTTPRequest.BITSTREAM_SWITCHING_SEGMENT_TYPE="Bitstream Switching Segment",MediaPlayer.vo.metrics.HTTPRequest.OTHER_TYPE="other",MediaPlayer.vo.metrics.ManifestUpdate=function(){"use strict";this.mediaType=null,this.type=null,this.requestTime=null,this.fetchTime=null,this.availabilityStartTime=null,this.presentationStartTime=0,this.clientTimeOffset=0,this.currentTime=null,this.buffered=null,this.latency=0,this.streamInfo=[],this.trackInfo=[]},MediaPlayer.vo.metrics.ManifestUpdate.StreamInfo=function(){"use strict";this.id=null,this.index=null,this.start=null,this.duration=null},MediaPlayer.vo.metrics.ManifestUpdate.TrackInfo=function(){"use strict";this.id=null,this.index=null,this.mediaType=null,this.streamIndex=null,this.presentationTimeOffset=null,this.startNumber=null,this.fragmentInfoType=null},MediaPlayer.vo.metrics.ManifestUpdate.prototype={constructor:MediaPlayer.vo.metrics.ManifestUpdate},MediaPlayer.vo.metrics.ManifestUpdate.StreamInfo.prototype={constructor:MediaPlayer.vo.metrics.ManifestUpdate.StreamInfo},MediaPlayer.vo.metrics.ManifestUpdate.TrackInfo.prototype={constructor:MediaPlayer.vo.metrics.ManifestUpdate.TrackInfo},MediaPlayer.vo.metrics.PlayList=function(){"use strict";this.stream=null,this.start=null,this.mstart=null,this.starttype=null,this.trace=[]},MediaPlayer.vo.metrics.PlayList.Trace=function(){"use strict";this.representationid=null,this.subreplevel=null,this.start=null,this.mstart=null,this.duration=null,this.playbackspeed=null,this.stopreason=null},MediaPlayer.vo.metrics.PlayList.prototype={constructor:MediaPlayer.vo.metrics.PlayList},MediaPlayer.vo.metrics.PlayList.INITIAL_PLAY_START_REASON="initial_start",MediaPlayer.vo.metrics.PlayList.SEEK_START_REASON="seek",MediaPlayer.vo.metrics.PlayList.Trace.prototype={constructor:MediaPlayer.vo.metrics.PlayList.Trace()},MediaPlayer.vo.metrics.PlayList.Trace.USER_REQUEST_STOP_REASON="user_request",MediaPlayer.vo.metrics.PlayList.Trace.REPRESENTATION_SWITCH_STOP_REASON="representation_switch",MediaPlayer.vo.metrics.PlayList.Trace.END_OF_CONTENT_STOP_REASON="end_of_content",MediaPlayer.vo.metrics.PlayList.Trace.REBUFFERING_REASON="rebuffering",MediaPlayer.vo.metrics.RepresentationSwitch=function(){"use strict";this.t=null,this.mt=null,this.to=null,this.lto=null},MediaPlayer.vo.metrics.RepresentationSwitch.prototype={constructor:MediaPlayer.vo.metrics.RepresentationSwitch},MediaPlayer.vo.metrics.RequestsQueue=function(){"use strict";this.pendingRequests=[],this.loadingRequests=[],this.executedRequests=[],this.rejectedRequests=[]},MediaPlayer.vo.metrics.RequestsQueue.prototype={constructor:MediaPlayer.vo.metrics.RequestsQueue},MediaPlayer.vo.metrics.SchedulingInfo=function(){"use strict";this.mediaType=null,this.t=null,this.type=null,this.startTime=null,this.availabilityStartTime=null,this.duration=null,this.quality=null,this.range=null,this.state=null},MediaPlayer.vo.metrics.SchedulingInfo.prototype={constructor:MediaPlayer.vo.metrics.SchedulingInfo},MediaPlayer.vo.metrics.TCPConnection=function(){"use strict";this.tcpid=null,this.dest=null,this.topen=null,this.tclose=null,this.tconnect=null},MediaPlayer.vo.metrics.TCPConnection.prototype={constructor:MediaPlayer.vo.metrics.TCPConnection},MediaPlayer.vo.protection.ClearKeyKeySet=function(a,b){if(b&&"persistent"!==b&&"temporary"!==b)throw new Error("Invalid ClearKey key set type!  Must be one of 'persistent' or 'temporary'");this.keyPairs=a,this.type=b,this.toJWK=function(){var a,b=this.keyPairs.length,c={};for(c.keys=[],a=0;b>a;a++){var d={kty:"oct",alg:"A128KW",kid:this.keyPairs[a].keyID,k:this.keyPairs[a].key};c.keys.push(d)}this.type&&(c.type=this.type);var e=JSON.stringify(c),f=e.length,g=new ArrayBuffer(f),h=new Uint8Array(g);for(a=0;f>a;a++)h[a]=e.charCodeAt(a);return g}},MediaPlayer.vo.protection.ClearKeyKeySet.prototype={constructor:MediaPlayer.vo.protection.ClearKeyKeySet},MediaPlayer.vo.protection.KeyError=function(a,b){"use strict";this.sessionToken=a,this.error=b},MediaPlayer.vo.protection.KeyError.prototype={constructor:MediaPlayer.vo.protection.KeyError},MediaPlayer.vo.protection.KeyMessage=function(a,b,c,d){"use strict";this.sessionToken=a,this.message=b,this.defaultURL=c,this.messageType=d?d:"license-request"},MediaPlayer.vo.protection.KeyMessage.prototype={constructor:MediaPlayer.vo.protection.KeyMessage},MediaPlayer.vo.protection.KeyPair=function(a,b){"use strict";this.keyID=a,this.key=b},MediaPlayer.vo.protection.KeyPair.prototype={constructor:MediaPlayer.vo.protection.KeyPair},MediaPlayer.vo.protection.KeySystemAccess=function(a,b){this.keySystem=a,this.ksConfiguration=b},MediaPlayer.vo.protection.KeySystemAccess.prototype={constructor:MediaPlayer.vo.protection.KeySystemAccess},MediaPlayer.vo.protection.KeySystemConfiguration=function(a,b,c,d,e){this.initDataTypes=["cenc"],this.audioCapabilities=a,this.videoCapabilities=b,this.distinctiveIdentifier=c,this.persistentState=d,this.sessionTypes=e},MediaPlayer.vo.protection.KeySystemConfiguration.prototype={constructor:MediaPlayer.vo.protection.KeySystemConfiguration},MediaPlayer.vo.protection.LicenseRequestComplete=function(a,b,c){"use strict";this.message=a,this.sessionToken=b,this.messageType=c?c:"license-request"},MediaPlayer.vo.protection.LicenseRequestComplete.prototype={constructor:MediaPlayer.vo.protection.LicenseRequestComplete},MediaPlayer.vo.protection.MediaCapability=function(a,b){this.contentType=a,this.robustness=b},MediaPlayer.vo.protection.MediaCapability.prototype={constructor:MediaPlayer.vo.protection.MediaCapability},MediaPlayer.vo.protection.NeedKey=function(a,b){this.initData=a,this.initDataType=b},MediaPlayer.vo.protection.NeedKey.prototype={constructor:MediaPlayer.vo.protection.NeedKey},MediaPlayer.vo.protection.ProtectionData=function(a,b,c){this.serverURL=a,this.httpRequestHeaders=b,this.clearkeys=c},MediaPlayer.vo.protection.ProtectionData.prototype={constructor:MediaPlayer.vo.protection.ProtectionData},MediaPlayer.vo.protection.SessionToken=function(){};
-/*! videojs-contrib-dash - v1.1.1 - 2015-08-27
+/*! videojs-contrib-dash - v1.1.1 - 2015-09-29
  * Copyright (c) 2015 Brightcove  */
-(function(window, videojs) {
+(function (window, videojs) {
+  'use strict';
+  /**
+   * The component for controlling the playback rate
+   *
+   * @param {videojs.Player|Object} player
+   * @param {Object=} options
+   * @constructor
+   */
+  videojs.BitrateMenuButton = videojs.MenuButton.extend({
+    /** @constructor */
+    init: function (player, options) {
+      videojs.MenuButton.call(this, player, options);
+
+      this.updateVisibility();
+      this.updateLabel();
+
+      this.on(player, 'loadstart', this.updateVisibility);
+      this.on(player, 'initialized', this.update);
+      this.on(player, 'bitratechange', this.updateVisibility);
+      this.on(player, 'bitratechange', this.updateLabel);
+    }
+  });
+
+
+  videojs.ControlBar.prototype.options_.children.bitrateMenuButton = {};
+
+  videojs.BitrateMenuButton.Labels = ['bas', 'moyen', 'normal', 'HD', 'auto'];
+  videojs.BitrateMenuButton.prototype.buttonText = 'Quality Selection';
+  videojs.BitrateMenuButton.prototype.className = 'vjs-bitrate';
+
+
+  videojs.BitrateMenuButton.prototype.createEl = function () {
+    var el = videojs.MenuButton.prototype.createEl.call(this);
+
+    this.labelEl_ = videojs.createEl('div', {
+      className: 'vjs-bitrate-value',
+      innerHTML: 1.0
+    });
+
+    el.appendChild(this.labelEl_);
+
+    return el;
+  };
+
+// Menu creation
+  videojs.BitrateMenuButton.prototype.createMenu = function () {
+    if (!this.player().tech) {
+      return;
+    }
+    var menu = new videojs.Menu(this.player());
+    var bitRates = this.player().tech['featuresBitrates'];
+
+    if (bitRates) {
+      menu.addChild(
+        new videojs.BitrateMenuItem(this.player(), {
+          qualityIndex: bitRates.length,
+          bitrate: 'Auto'
+        })
+      );
+      for (var i = bitRates.length - 1; i >= 0; i--) {
+        var bitRate = bitRates[i];
+        menu.addChild(
+          new videojs.BitrateMenuItem(this.player(), bitRate)
+        );
+      }
+    }
+
+    return menu;
+  };
+
+  videojs.BitrateMenuButton.prototype.updateARIAAttributes = function () {
+    // Current playback rate
+    this.el().setAttribute('aria-valuenow', this.player().tech.getBitrate());
+  };
+
+  videojs.BitrateMenuButton.prototype.onClick = function () {
+    // select next rate option
+    var currentRate = this.player().playbackRate();
+    var rates = this.player().tech['featuresBitrate'];
+    // this will select first one if the last one currently selected
+    var newRate = rates[0];
+    for (var i = 0; i < rates.length; i++) {
+      if (rates[i] > currentRate) {
+        newRate = rates[i];
+        break;
+      }
+    }
+    this.player().playbackRate(newRate);
+  };
+
+  videojs.BitrateMenuButton.prototype.bitratesSupported = function () {
+    return this.player().tech && this.player().tech['featuresBitrates'] &&
+      this.player().tech['featuresBitrates'].length > 0;
+  };
+
+  /**
+   * Hide playback rate controls when they're no playback rate options to select
+   */
+  videojs.BitrateMenuButton.prototype.updateVisibility = function () {
+    if (this.bitratesSupported()) {
+      this.removeClass('vjs-hidden');
+    } else {
+      this.addClass('vjs-hidden');
+    }
+  };
+
+  /**
+   * Update button label when rate changed
+   */
+  videojs.BitrateMenuButton.prototype.updateLabel = function () {
+    if (this.bitratesSupported()) {
+      var selected = this.player().tech['featuresBitrate'];
+      this.labelEl_.innerHTML = videojs.BitrateMenuButton.Labels[selected];
+    }
+  };
+
+  /**
+   * The specific menu item type for selecting a playback rate
+   *
+   * @constructor
+   */
+  videojs.BitrateMenuItem = videojs.MenuItem.extend({
+    contentElType: 'button',
+    /** @constructor */
+    init: function (player, options) {
+      var label = this.label =
+        parseInt(options['bitrate'], 10) ? options['bitrate'] / 1000 : options['bitrate'];
+      var qualityIndex = this.qualityIndex = options['qualityIndex'];
+      // Modify options for parent MenuItem class's init.
+      options['label'] = videojs.BitrateMenuButton.Labels[qualityIndex] || label;
+      options['selected'] =
+        (qualityIndex === player.tech['featuresBitrates'].length) ||
+          /* (qualityIndex === player.tech['featuresBitrate']) ||*/ 1;
+      videojs.MenuItem.call(this, player, options);
+
+      this.on(player, 'bitratechange', this.update);
+    }
+  });
+
+  videojs.BitrateMenuItem.prototype.onClick = function () {
+    videojs.MenuItem.prototype.onClick.call(this);
+    //this.player().playbackRate(this.rate);
+    this.player().tech.setQuality(this.qualityIndex);
+  };
+
+  videojs.BitrateMenuItem.prototype.update = function () {
+    this.selected(this.player().tech['featuresBitrate'] === this.bitrateIndex);
+  };
+
+})(window, window.videojs);
+
+
+(function (window, videojs) {
   'use strict';
 
   var
-    isArray = function(a) {
+    isArray = function (a) {
       return Object.prototype.toString.call(a) === '[object Array]';
     },
     isObject = function (a) {
       return Object.prototype.toString.call(a) === '[object Object]';
     },
-    mergeOptions = function(obj1, obj2){
+    mergeOptions = function (obj1, obj2) {
       var key, val1, val2, res;
 
       // make a copy of obj1 so we're not overwriting original values.
       // like prototype.options_ and all sub options objects
       res = {};
 
-      for (key in obj2){
+      for (key in obj2) {
         if (obj2.hasOwnProperty(key)) {
           val1 = obj1[key];
           val2 = obj2[key];
@@ -17242,7 +17395,7 @@ default_sample_flags:"default_sample_flags",flags:"flags"},h={version:"version",
    *
    * Use Dash.js to playback DASH content inside of Video.js via a SourceHandler
    */
-  function Html5DashJS (source, tech) {
+  function Html5DashJS(source, tech) {
     var
       options = tech.options(),
       manifestSource;
@@ -17283,6 +17436,20 @@ default_sample_flags:"default_sample_flags",flags:"flags"},h={version:"version",
     // Must run controller before these two lines or else there is no
     // element to bind to.
     this.mediaPlayer_.startup();
+    this.mediaPlayer_.setAutoSwitchQuality(true);
+    this.mediaPlayer_.addEventListener(MediaPlayer.events.STREAM_INITIALIZED,
+      videojs.bind(this, this.onInitialized));
+    this.mediaPlayer_.addEventListener(MediaPlayer.events.STREAM_SWITCH_STARTED,
+      videojs.bind(this, this.onStreamSwitchComplete));
+    this.mediaPlayer_.addEventListener(MediaPlayer.events.STREAM_SWITCH_COMPLETED,
+      videojs.bind(this, this.onStreamSwitchComplete));
+
+    //override config
+    MediaPlayer.dependencies.BufferController.BUFFER_TO_KEEP = 10;
+    MediaPlayer.dependencies.BufferController.BUFFER_PRUNING_INTERVAL = 10;
+
+    //this.mediaPlayer_.addEventListener(MediaPlayer.events.METRIC_CHANGED,
+    //  videojs.bind(this, this.onMetricChanged));
     this.mediaPlayer_.attachView(this.el_);
 
     // Dash.js autoplays by default
@@ -17290,9 +17457,227 @@ default_sample_flags:"default_sample_flags",flags:"flags"},h={version:"version",
       this.mediaPlayer_.setAutoPlay(false);
     }
 
+    //this.mediaPlayer_.setAutoSwitchQuality(options.autoSwitch);
+
+
     // Fetches and parses the manifest - WARNING the callback is non-standard "error-last" style
     this.mediaPlayer_.retrieveManifest(manifestSource, videojs.bind(this, this.initializeDashJS));
+
   }
+
+  Html5DashJS.prototype.options_ = {
+    autoSwitch: true
+  };
+
+  Html5DashJS.prototype.onInitialized = function (manifest, err) {
+    if (err) {
+      this.player().error(err);
+    }
+    var bitrates = this.mediaPlayer_.getBitrateInfoListFor('video');
+    // bitrates are sorted from lowest to the best values
+    // so the last one has the best quality
+    //  maxQuality = bitrates[bitrates.length - 1].qualityIndex;
+    // set max quality
+    this.tech_['featuresBitrates'] = bitrates;
+    this.tech_['featuresBitrate'] = bitrates.length; //AUTO;
+
+    videojs.log('Bitrates available:' + bitrates.length);
+    //this.mediaPlayer_.setQualityFor('video', maxQuality);
+    //TODO generate methods from array
+    this.tech_.setQuality = videojs.bind(this, this.setQuality);
+    this.tech_.trigger('initialized');
+    this.tech_.trigger('bitratechange');
+  };
+
+  Html5DashJS.prototype.setQuality = function (qualityIndex) {
+    var bitrates = this.mediaPlayer_.getBitrateInfoListFor('video');
+    this.mediaPlayer_.setAutoSwitchQuality(qualityIndex >= bitrates.length);
+    this.mediaPlayer_.setQualityFor('video', qualityIndex);
+
+    //TODO supprimer ca pour le switch auto
+    this.tech_['featuresBitrate'] = qualityIndex; //AUTO;
+    this.tech_.trigger('bitratechange');
+
+  };
+
+  Html5DashJS.prototype.getBitrate = function () {
+    return this.mediaPlayer_.getBitrateInfoListFor('video');
+  };
+
+
+  Html5DashJS.prototype.getCribbedMetricsFor = function (type) {
+    var metrics = this.mediaPlayer_.getMetricsFor(type),
+      metricsExt = this.mediaPlayer_.getMetricsExt(),
+      repSwitch,
+      bufferLevel,
+      httpRequests,
+      droppedFramesMetrics,
+      bitrateIndexValue,
+      bandwidthValue,
+      pendingValue,
+      numBitratesValue,
+      bufferLengthValue = 0,
+      movingLatency = {},
+      movingDownload = {},
+      movingRatio = {},
+      droppedFramesValue = 0,
+      requestsQueue,
+      fillmoving = function (type, Requests) {
+        var requestWindow,
+          downloadTimes,
+          latencyTimes,
+          durationTimes;
+
+        requestWindow = Requests
+          .slice(-20)
+          .filter(function (req) {
+            return req.responsecode >= 200 && req.responsecode < 300 && !!req.mediaduration && req.type === 'Media Segment' && req.stream === type;
+          })
+          .slice(-4);
+        if (requestWindow.length > 0) {
+
+          latencyTimes = requestWindow.map(function (req) {
+            return Math.abs(req.tresponse.getTime() - req.trequest.getTime()) / 1000;
+          });
+
+          movingLatency[type] = {
+            average: latencyTimes.reduce(function (l, r) {
+              return l + r;
+            }) / latencyTimes.length,
+            high: latencyTimes.reduce(function (l, r) {
+              return l < r ? r : l;
+            }),
+            low: latencyTimes.reduce(function (l, r) {
+              return l < r ? l : r;
+            }),
+            count: latencyTimes.length
+          };
+
+          downloadTimes = requestWindow.map(function (req) {
+            return Math.abs(req.tfinish.getTime() - req.tresponse.getTime()) / 1000;
+          });
+
+          movingDownload[type] = {
+            average: downloadTimes.reduce(function (l, r) {
+              return l + r;
+            }) / downloadTimes.length,
+            high: downloadTimes.reduce(function (l, r) {
+              return l < r ? r : l;
+            }),
+            low: downloadTimes.reduce(function (l, r) {
+              return l < r ? l : r;
+            }),
+            count: downloadTimes.length
+          };
+
+          durationTimes = requestWindow.map(function (req) {
+            return req.mediaduration;
+          });
+
+          movingRatio[type] = {
+            average: (durationTimes.reduce(function (l, r) {
+              return l + r;
+            }) / downloadTimes.length) / movingDownload[type].average,
+            high: durationTimes.reduce(function (l, r) {
+              return l < r ? r : l;
+            }) / movingDownload[type].low,
+            low: durationTimes.reduce(function (l, r) {
+              return l < r ? l : r;
+            }) / movingDownload[type].high,
+            count: durationTimes.length
+          };
+        }
+      };
+
+    if (metrics && metricsExt) {
+      repSwitch = metricsExt.getCurrentRepresentationSwitch(metrics);
+      bufferLevel = metricsExt.getCurrentBufferLevel(metrics);
+      httpRequests = metricsExt.getHttpRequests(metrics);
+      droppedFramesMetrics = metricsExt.getCurrentDroppedFrames(metrics);
+      requestsQueue = metricsExt.getRequestsQueue(metrics);
+
+      fillmoving('video', httpRequests);
+      fillmoving('audio', httpRequests);
+
+      var streamIdx = this.streamInfo.index;
+
+      if (repSwitch !== null) {
+        bitrateIndexValue = metricsExt.getIndexForRepresentation(repSwitch.to, streamIdx);
+        bandwidthValue = metricsExt.getBandwidthForRepresentation(repSwitch.to, streamIdx);
+        bandwidthValue = bandwidthValue / 1000;
+        bandwidthValue = Math.round(bandwidthValue);
+      }
+
+      numBitratesValue = metricsExt.getMaxIndexForBufferType(type, streamIdx);
+
+      if (bufferLevel !== null) {
+        bufferLengthValue = bufferLevel.level.toPrecision(5);
+      }
+
+      if (droppedFramesMetrics !== null) {
+        droppedFramesValue = droppedFramesMetrics.droppedFrames;
+      }
+
+      if (isNaN(bandwidthValue) || bandwidthValue === undefined) {
+        bandwidthValue = 0;
+      }
+
+      if (isNaN(bitrateIndexValue) || bitrateIndexValue === undefined) {
+        bitrateIndexValue = 0;
+      }
+
+      if (isNaN(numBitratesValue) || numBitratesValue === undefined) {
+        numBitratesValue = 0;
+      }
+
+      if (isNaN(bufferLengthValue) || bufferLengthValue === undefined) {
+        bufferLengthValue = 0;
+      }
+
+      pendingValue = this.mediaPlayer_.getQualityFor(type);
+
+      return {
+        bandwidthValue: bandwidthValue,
+        bitrateIndexValue: bitrateIndexValue,
+        pendingIndex: (pendingValue !== bitrateIndexValue) ? '(-> ' + (pendingValue) + ')' : '',
+        numBitratesValue: numBitratesValue,
+        bufferLengthValue: bufferLengthValue,
+        droppedFramesValue: droppedFramesValue,
+        movingLatency: movingLatency,
+        movingDownload: movingDownload,
+        movingRatio: movingRatio,
+        requestsQueue: requestsQueue
+      };
+    }
+    else {
+      return null;
+    }
+  };
+
+
+  Html5DashJS.prototype.onMetricChanged = function (e) {
+    var metrics;
+    // get current buffered ranges of video element and keep them up to date
+    if (e.data.stream === 'video') {
+      metrics = this.getCribbedMetricsFor('video');
+      if (metrics) {
+        if (metrics.bitrateIndexValue !== this.tech_['featuresBitrate']) {
+          this.tech_['featuresBitrate'] = metrics.bitrateIndexValue;
+          this.tech_.trigger('bitratechange');
+        }
+      }
+    }
+  };
+
+  Html5DashJS.prototype.onStreamSwitchComplete = function (e) {
+    this.tech_['featuresBitrate'] = e.data.toStreamInfo.index;
+    this.streamInfo = e.data.toStreamInfo;
+    var evt = videojs.fixEvent({
+      type: 'bitratechange',
+      data: e.data
+    });
+    this.tech_.trigger(evt);
+  };
 
   Html5DashJS.prototype.initializeDashJS = function (manifest, err) {
     var manifestProtectionData = {};
@@ -17314,7 +17699,7 @@ default_sample_flags:"default_sample_flags",flags:"flags"},h={version:"version",
     }
 
     // We have to reset any mediaKeys before the attachSource call below
-    this.resetSrc_(videojs.bind(this, function afterMediaKeysReset () {
+    this.resetSrc_(videojs.bind(this, function afterMediaKeysReset() {
       Html5DashJS.showErrors(this.elParent_);
 
       // Attach the source with any protection data
@@ -17403,7 +17788,8 @@ default_sample_flags:"default_sample_flags",flags:"flags"},h={version:"version",
     if (this.mediaPlayer_) {
       this.mediaPlayer_.reset();
     }
-    this.resetSrc_(function noop(){});
+    this.resetSrc_(function noop() {
+    });
   };
 
   // Only add the SourceHandler if the browser supports MediaSourceExtensions
@@ -17415,7 +17801,7 @@ default_sample_flags:"default_sample_flags",flags:"flags"},h={version:"version",
 
         if (dashTypeRE.test(source.type)) {
           return 'probably';
-        } else if (dashExtRE.test(source.src)){
+        } else if (dashExtRE.test(source.src)) {
           return 'maybe';
         } else {
           return '';
@@ -17431,7 +17817,7 @@ default_sample_flags:"default_sample_flags",flags:"flags"},h={version:"version",
   videojs.Html5DashJS = Html5DashJS;
 })(window, window.videojs);
 
-/*! videojs-chromecast - v1.1.1 - 2015-09-10
+/*! videojs-chromecast - v1.1.1 - 2015-09-29
 * https://github.com/kim-company/videojs-chromecast
 * Copyright (c) 2015 KIM Keep In Mind GmbH, srl; Licensed MIT */
 
@@ -17479,6 +17865,8 @@ default_sample_flags:"default_sample_flags",flags:"flags"},h={version:"version",
 
     ChromecastComponent.prototype.timerStep = 1000;
 
+    ChromecastComponent.prototype.tryingReconnect = 0;
+
     function ChromecastComponent(player, settings) {
       this.settings = settings;
       ChromecastComponent.__super__.constructor.call(this, player, this.settings);
@@ -17495,8 +17883,7 @@ default_sample_flags:"default_sample_flags",flags:"flags"},h={version:"version",
         return;
       }
       if (!chrome.cast || !chrome.cast.isAvailable) {
-        vjs.log("Cast APIs not available. Retrying...");
-        setTimeout(this.initializeApi.bind(this), 1000);
+        vjs.log("Cast APIs not available");
         return;
       }
       vjs.log("Cast APIs are available");
