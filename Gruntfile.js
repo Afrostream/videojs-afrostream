@@ -54,7 +54,9 @@ module.exports = function (grunt) {
           //CHROMECAST
           'node_modules/videojs-chromecast/dist/videojs.chromecast.js',
           //GoogleAnaltics
-          'bower_components/videojs-ga/dist/videojs.ga.js'
+          'bower_components/videojs-ga/dist/videojs.ga.js',
+          //GoogleAnaltics
+          'node_modules/videojs-metrics/dist/videojs-metrics.js'
         ],
         dest: 'dist/afrostream.player.js'
       }
