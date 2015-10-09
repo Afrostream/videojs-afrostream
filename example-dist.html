@@ -46,23 +46,28 @@
        width="600"
        crossorigin
        controls>
-    <!--<source-->
-    <!--src="http://origin.afrostream.tv/vod/FF_112_Afrostream_V2/98a76e65b74d03a8.ism/98a76e65b74d03a8.mpd"-->
-    <!--type="application/dash+xml">-->
     <source
-            src="http://cdn1.afrostream.tv/vod/blackcoffeebis/8343f9cf95cc509e-ter.ism/master.m3u8"
-            type="application/x-mpegURL">
+            src="http://yt-dash-mse-test.commondatastorage.googleapis.com/media/motion-20120802-manifest.mpd"
+            type="application/dash+xml">
+    <!--<source-->
+    <!--src="http://cdn1.afrostream.tv/vod/blackcoffeebis/8343f9cf95cc509e-ter.ism/master.m3u8"-->
+    <!--type="application/x-mpegURL">-->
     <track src="https://afrostream-img.s3-eu-west-1.amazonaws.com/production/caption/2015/09/913ed362da38f821ed4b-vimeocom136679382.fr.vtt"
            kind="captions" srclang="fr" label="fr">
 </video>
+<script type="text/javascript" src="//bitdash-a.akamaihd.net/bitmovin-portal/56039aa10a66b/da5bac3ab7/latest/bitdash.min.js"></script>
 <script>
+    videojs.options.techOrder = ['bitdash'];
+    videojs.options.bitdash = {
+        key: '7d9166bcfd3f79d383757f5099bace04'
+    };
     videojs.options.flash.swf = 'node_modules/videojs-swf/dist/video-js.swf';
     videojs.options.hls = {
         swf: 'node_modules/videojs-swf/dist/video-js.swf',
         params: {
             wmode: 'opaque'
         }
-    }
+    };
     // initialize the player
     var player = videojs('video');
 </script>

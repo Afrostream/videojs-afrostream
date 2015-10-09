@@ -25,36 +25,40 @@ module.exports = function (grunt) {
       dist: {
         nonull: true,
         src: [
-          //HLS
           'node_modules/video.js/dist/video-js/video.dev.js',
-          'node_modules/videojs-contrib-media-sources/src/videojs-media-sources.js',
-          'src/videojs-hls.js',
-          'src/stream.js',
-          'src/flv-tag.js',
-          'src/exp-golomb.js',
-          'src/h264-extradata.js',
-          'src/h264-stream.js',
-          'src/aac-stream.js',
-          'src/metadata-stream.js',
-          'src/segment-parser.js',
-          'src/m3u8/m3u8-parser.js',
-          'src/xhr.js',
-          'src/playlist.js',
-          'src/playlist-loader.js',
-          'node_modules/pkcs7/dist/pkcs7.unpad.js',
-          'src/decrypter.js',
-          'src/bin-utils.js',
+          //HLS
+          //'node_modules/videojs-contrib-media-sources/src/videojs-media-sources.js',
+          //'src/videojs-hls.js',
+          //'src/stream.js',
+          //'src/flv-tag.js',
+          //'src/exp-golomb.js',
+          //'src/h264-extradata.js',
+          //'src/h264-stream.js',
+          //'src/aac-stream.js',
+          //'src/metadata-stream.js',
+          //'src/segment-parser.js',
+          //'src/m3u8/m3u8-parser.js',
+          //'src/xhr.js',
+          //'src/playlist.js',
+          //'src/playlist-loader.js',
+          //'node_modules/pkcs7/dist/pkcs7.unpad.js',
+          //'src/decrypter.js',
+          //'src/bin-utils.js',
           //DASH
-          'node_modules/dashjs/dist/dash.all.js',
-          'node_modules/videojs-contrib-dash/dist/videojs-dash.js',
+          //'node_modules/dashjs/dist/dash.all.js',
+          //'node_modules/videojs-contrib-dash/dist/videojs-dash.js',
           //STREAMROOT
           //'libs/streamroot/1.3/api.js',
           //'libs/streamroot/1.3/streamroot.wrapper.js',
           //'libs/streamroot/1.3/srflash.wrapper.420.js'
           //CHROMECAST
-          'node_modules/videojs-chromecast/dist/videojs.chromecast.js',
+          //'node_modules/videojs-chromecast/dist/videojs.chromecast.js',
           //GoogleAnaltics
-          'bower_components/videojs-ga/dist/videojs.ga.js'
+          'node_modules/videojs-bitdash/dist/videojs-bitdash.js',
+          //GoogleAnaltics
+          'bower_components/videojs-ga/dist/videojs.ga.js',
+          //Metrics
+          'node_modules/videojs-metrics/dist/videojs-metrics.js'
         ],
         dest: 'dist/afrostream.player.js'
       }
