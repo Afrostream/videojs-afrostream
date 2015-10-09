@@ -51,6 +51,7 @@
     "pkcs7": "^0.2.3",
     "videojs-chromecast": "git+https://github.com/Afrostream/videojs-chromecast.git#master",
     "videojs-metrics": "git+https://github.com/Afrostream/videojs-metrics.git#master",
+    "videojs-bitdash": "git@github.com:Afrostream/videojs-bitdash.git",
     "videojs-contrib-dash": "git+https://github.com/Afrostream/videojs-contrib-dash.git#switch-bitrate",
     "videojs-contrib-media-sources": "^1.0.0",
     "videojs-swf": "git+https://github.com/Afrostream/video-js-swf.git#feature/stage-video-hardware-accelerated"
