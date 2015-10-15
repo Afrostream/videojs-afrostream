@@ -17493,9 +17493,7 @@ default_sample_flags:"default_sample_flags",flags:"flags"},h={version:"version",
     return this.options_ = videojs.util.mergeOptions(this.options_, obj);
   };
 
-  Html5DashJS.prototype.streamInfo = {
-    index: 0
-  };
+  Html5DashJS.prototype.streamInfo = {};
 
   Html5DashJS.prototype.onInitialized = function (manifest, err) {
     if (err) {
@@ -17533,7 +17531,7 @@ default_sample_flags:"default_sample_flags",flags:"flags"},h={version:"version",
   };
 
   Html5DashJS.METRICS_DATA = {
-    bandwidth: 0,
+    bandwidth: -1,
     bitrateIndex: 0,
     pendingIndex: '',
     numBitrates: 0,
@@ -18753,10 +18751,10 @@ default_sample_flags:"default_sample_flags",flags:"flags"},h={version:"version",
   videojs.MediaTechController.prototype['getPlaybackStatistics'] = function () {
     return {
       video: {
-        bandwidth: 1
+        bandwidth: -1
       },
       audio: {
-        bandwidth: 1
+        bandwidth: -1
       }
     };
   };
