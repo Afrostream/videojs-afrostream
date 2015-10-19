@@ -15,7 +15,7 @@
 
   // Pass this if window is not defined yet
 }(typeof window !== 'undefined' ? window : this, function (window, noGlobal) { /*jshint unused:false*/
-  /*! videojs-afrostream - v0.17.5 - 2015-10-16
+  /*! videojs-afrostream - v0.17.5 - 2015-10-19
 * Copyright (c) 2015 Brightcove; Licensed  */
 // HTML5 Shiv. Must be in <head> to support older browsers.
 document.createElement('video');
@@ -18451,7 +18451,7 @@ default_sample_flags:"default_sample_flags",flags:"flags"},h={version:"version",
 
 }).call(this);
 
-/*! videojs-metrics - v0.0.0 - 2015-10-16
+/*! videojs-metrics - v0.0.0 - 2015-10-19
 * Copyright (c) 2015 benjipott; Licensed Apache-2.0 */
 /*! videojs-metrics - v0.0.0 - 2015-10-7
  * Copyright (c) 2015 benjipott
@@ -18560,9 +18560,6 @@ default_sample_flags:"default_sample_flags",flags:"flags"},h={version:"version",
 
       switch (data.type) {
         case 'error':
-          //when error notify api player stopped
-          var MergeData = videojs.util.mergeOptions(data, {type: 'stop'});
-          notify(MergeData);
           break;
         case 'dispose':
         case 'ended':
@@ -18648,12 +18645,16 @@ default_sample_flags:"default_sample_flags",flags:"flags"},h={version:"version",
       //requestsQueue
       //=== CASTLAB
       // ???
-      var metrics = player.techGet('getPlaybackStatistics');
-      evt.video_bitrate = metrics.video.bandwidth || 0;
-      evt.audio_bitrate = metrics.audio.bandwidth || 0;
-      var pickedData = pick(evt, getRequiredKeys(evt.type));
-
-      xhr(settings, pickedData);
+      try {
+        var metrics = player.techGet('getPlaybackStatistics');
+        evt.video_bitrate = metrics.video.bandwidth || 0;
+        evt.audio_bitrate = metrics.audio.bandwidth || 0;
+        var pickedData = pick(evt, getRequiredKeys(evt.type));
+        xhr(settings, pickedData);
+      }
+      catch (e) {
+        videojs.log(e);
+      }
     };
 
     xhr = function (url, data, callback) {
